@@ -5,6 +5,14 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery", "FoodDelivery\FoodDelivery.csproj", "{4CFE51E0-433C-4901-BA2D-1EBB7A8BD8CC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{0E48DBBD-E017-4946-9C75-28DAA8F0EB50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.Models", "FoodDelivery.Models\FoodDelivery.Models.csproj", "{02C195E4-81F4-4878-9095-C08D67A514C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{CAF2B5A6-275F-479A-8BB2-1D0F97D57E5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.DAL", "FoodDelivery.DAL\FoodDelivery.DAL.csproj", "{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +23,21 @@ Global
 		{4CFE51E0-433C-4901-BA2D-1EBB7A8BD8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CFE51E0-433C-4901-BA2D-1EBB7A8BD8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CFE51E0-433C-4901-BA2D-1EBB7A8BD8CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02C195E4-81F4-4878-9095-C08D67A514C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02C195E4-81F4-4878-9095-C08D67A514C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02C195E4-81F4-4878-9095-C08D67A514C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02C195E4-81F4-4878-9095-C08D67A514C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02C195E4-81F4-4878-9095-C08D67A514C2} = {0E48DBBD-E017-4946-9C75-28DAA8F0EB50}
+		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1} = {CAF2B5A6-275F-479A-8BB2-1D0F97D57E5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE567447-F0A6-4A55-9447-0A20D5C21615}
