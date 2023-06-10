@@ -1,4 +1,5 @@
 using FoodDelivery.DAL;
+using FoodDelivery.DAL.Implementations;
 using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Models.Entity;
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IBaseRepository<Basket>, BasketRepository>();
 builder.Services.AddScoped<IBaseRepository<Dish>, DishRepository>();
 builder.Services.AddScoped<IBaseRepository<Order>, OrderRepository>();
 builder.Services.AddScoped<IBaseRepository<Profile>, ProfileRepository>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

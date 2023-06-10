@@ -1,4 +1,6 @@
-﻿namespace FoodDelivery.Models.Entity
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FoodDelivery.Models.Entity
 {
     public class User
     {
