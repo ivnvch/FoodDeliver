@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodDelivery.DAL\FoodDelivery.DAL.csproj" />
+    <ProjectReference Include="..\FoodDelivery.Service\FoodDelivery.Service.csproj" />
   </ItemGroup>
 
 </Project>

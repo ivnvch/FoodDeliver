@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodDelivery.Service.Implementations
 {
-    internal class ProfileService : IProfileService
+    public class ProfileService : IProfileService
     {
         private readonly IBaseRepository<Profile> _profileRepository;
 
