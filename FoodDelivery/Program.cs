@@ -1,7 +1,5 @@
+using FoodDelivery;
 using FoodDelivery.DAL;
-using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.DAL.Repositories;
-using FoodDelivery.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,12 +11,10 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(conne
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
-builder.Services.AddScoped<IBaseRepository<Basket>, BasketRepository>();
-builder.Services.AddScoped<IBaseRepository<Dish>, DishRepository>();
-builder.Services.AddScoped<IBaseRepository<Order>, OrderRepository>();
-builder.Services.AddScoped<IBaseRepository<Profile>, ProfileRepository>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.RegisterRepositories();
+builder.Services.RegisterServices();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

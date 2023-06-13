@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery", "FoodDelivery\FoodDelivery.csproj", "{4CFE51E0-433C-4901-BA2D-1EBB7A8BD8CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery", "FoodDelivery\FoodDelivery.csproj", "{4CFE51E0-433C-4901-BA2D-1EBB7A8BD8CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{0E48DBBD-E017-4946-9C75-28DAA8F0EB50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.Models", "FoodDelivery.Models\FoodDelivery.Models.csproj", "{02C195E4-81F4-4878-9095-C08D67A514C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Models", "FoodDelivery.Models\FoodDelivery.Models.csproj", "{02C195E4-81F4-4878-9095-C08D67A514C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{CAF2B5A6-275F-479A-8BB2-1D0F97D57E5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.DAL", "FoodDelivery.DAL\FoodDelivery.DAL.csproj", "{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.DAL", "FoodDelivery.DAL\FoodDelivery.DAL.csproj", "{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{451F6F3D-0DA6-48C9-8EC9-4DB90ABE255B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.Service", "FoodDelivery.Service\FoodDelivery.Service.csproj", "{D47F6334-969C-4657-BBEC-D65604DB43DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +35,10 @@ Global
 		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D47F6334-969C-4657-BBEC-D65604DB43DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D47F6334-969C-4657-BBEC-D65604DB43DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D47F6334-969C-4657-BBEC-D65604DB43DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D47F6334-969C-4657-BBEC-D65604DB43DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{02C195E4-81F4-4878-9095-C08D67A514C2} = {0E48DBBD-E017-4946-9C75-28DAA8F0EB50}
 		{91F9D4A9-3A4B-49E2-A38F-17FD3C3125F1} = {CAF2B5A6-275F-479A-8BB2-1D0F97D57E5E}
+		{D47F6334-969C-4657-BBEC-D65604DB43DE} = {451F6F3D-0DA6-48C9-8EC9-4DB90ABE255B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE567447-F0A6-4A55-9447-0A20D5C21615}
