@@ -11,6 +11,6 @@ namespace FoodDelivery.Models.ViewModel.Account
 
         [Required(ErrorMessage = "Введите пароль")]
         [DataType(DataType.Password)]
-        public int Password { get; set; }
+        public string Password { get; set; }
     }
 }
