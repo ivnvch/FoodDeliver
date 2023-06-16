@@ -38,7 +38,7 @@ namespace FoodDelivery.Service.Implementations
                 user = new User()
                 {
                     Login = viewModel.Login,
-                    Password = viewModel.Password,//нужно захешировать пароль
+                    //Password = viewModel.Password,//нужно захешировать пароль
                 };
 
                 await _userRepository.CreateAsync(user);
