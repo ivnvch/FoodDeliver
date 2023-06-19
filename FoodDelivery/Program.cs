@@ -44,17 +44,7 @@ builder.Services.AddAuthorization();
 //        };
 //    });
 
-builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
-builder.Services.AddScoped<IBaseRepository<Basket>, BasketRepository>();
-builder.Services.AddScoped<IBaseRepository<Dish>, DishRepository>();
-builder.Services.AddScoped<IBaseRepository<Order>, OrderRepository>();
-builder.Services.AddScoped<IBaseRepository<Profile>, ProfileRepository>();
 
-builder.Services.AddTransient<IProfileService, ProfileService>();
-builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<ITokenService, TokenSerivce>();
-builder.Services.AddTransient<IAccountService, AccountService>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -76,11 +66,11 @@ app.MapControllers();
 app.Run();
 
 
-public class AuthOptions
-{
-    public const string ISSUER = "MyAuthServer"; // издатель токена
-    public const string AUDIENCE = "MyAuthClient"; // потребитель токена
-    const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
-    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-}
+//public class AuthOptions
+//{
+//    public const string ISSUER = "MyAuthServer"; // издатель токена
+//    public const string AUDIENCE = "MyAuthClient"; // потребитель токена
+//    const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
+//    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
+//        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
+//}
