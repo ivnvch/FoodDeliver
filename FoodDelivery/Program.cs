@@ -1,5 +1,10 @@
 using FoodDelivery;
 using FoodDelivery.DAL;
+using FoodDelivery.DAL.Implementations;
+using FoodDelivery.DAL.Interfaces;
+using FoodDelivery.DAL.Repositories;
+using FoodDelivery.Models.Entity;
+using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +16,15 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(conne
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
+builder.Services.AddScoped<IBaseRepository<Basket>, BasketRepository>();
+builder.Services.AddScoped<IBaseRepository<Dish>, DishRepository>();
+builder.Services.AddScoped<IBaseRepository<Order>, OrderRepository>();
+builder.Services.AddScoped<IBaseRepository<Profile>, ProfileRepository>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+
 builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

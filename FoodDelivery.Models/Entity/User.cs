@@ -1,5 +1,4 @@
 ﻿using FoodDelivery.Models.Enum;
-
 namespace FoodDelivery.Models.Entity
 {
     public class User

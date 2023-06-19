@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230608214242_Initialize")]
-    partial class Initialize
+    [Migration("20230610133020_AddModelRole")]
+    partial class AddModelRole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,6 +137,22 @@ namespace FoodDelivery.DAL.Migrations
                     b.ToTable("Profiles");
                 });
 
+            modelBuilder.Entity("FoodDelivery.Models.Entity.Role", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<int?>("Name")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("FoodDelivery.Models.Entity.User", b =>
                 {
                     b.Property<int>("Id")
@@ -153,7 +169,12 @@ namespace FoodDelivery.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -191,9 +212,21 @@ namespace FoodDelivery.DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FoodDelivery.Models.Entity.User", b =>
+                {
+                    b.HasOne("FoodDelivery.Models.Entity.Role", null)
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
+                });
+
             modelBuilder.Entity("FoodDelivery.Models.Entity.Basket", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("FoodDelivery.Models.Entity.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("FoodDelivery.Models.Entity.User", b =>
