@@ -24,7 +24,7 @@ namespace FoodDelivery.DAL
                 builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
                 builder.Property(x => x.Login).IsRequired();
-                builder.Property(x => x.Password).IsRequired();
+                builder.Property(x => x.PasswordHash).IsRequired();
 
 
                 builder.HasOne(u => u.Profile)
