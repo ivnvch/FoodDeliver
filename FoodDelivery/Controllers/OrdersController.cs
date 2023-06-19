@@ -1,5 +1,6 @@
 ﻿using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.DTOs;
+using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -10,8 +11,8 @@ namespace FoodDelivery.Controllers
     [Route("api/[controller]")]
     public class OrdersController : Controller
     {
-        private readonly IrderService _orderService;
-        public OrdersController(IrderService orderService)
+        private readonly IOrderService _orderService;
+        public OrdersController(IOrderService orderService)
         {
             _orderService = orderService;
         }
