@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FoodDelivery.DAL\FoodDelivery.DAL.csproj" />
     <ProjectReference Include="..\FoodDelivery.Models\FoodDelivery.Models.csproj" />
   </ItemGroup>
