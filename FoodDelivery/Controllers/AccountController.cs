@@ -1,8 +1,13 @@
 ﻿using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Entity;
+using FoodDelivery.Models.Helpers;
 using FoodDelivery.Models.ViewModel.Account;
+using FoodDelivery.Models.ViewModel.User;
+using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -12,27 +17,37 @@ namespace FoodDelivery.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IBaseRepository<User> _userRepository;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IBaseRepository<User> userRepository)
+        public AccountController(IAccountService accountService)
         {
-            _userRepository = userRepository;
+            _accountService = accountService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            var hmac = new HMACSHA512();
-            var user = new User
+            try
             {
-                Login = registerViewModel.Login,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerViewModel.Password)),
-                PasswordSalt = hmac.Key,
-            };
+                var userRegister = await _accountService.Register(registerViewModel);
+                return Ok(userRegister);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-            await _userRepository.CreateAsync(user);
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            if (loginViewModel == null)
+            {
+                return BadRequest("Invalid Data");
+            }
 
-            return user;
+            var loginUser = await _accountService.Login(loginViewModel);
+            return Ok(loginUser);
         }
     }
 }
