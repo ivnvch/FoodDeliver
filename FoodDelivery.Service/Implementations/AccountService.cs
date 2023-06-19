@@ -1,10 +1,11 @@
-﻿using FoodDelivery.DAL.Interfaces;
+using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Entity;
 using FoodDelivery.Models.Helpers;
 using FoodDelivery.Models.ViewModel.Account;
 using FoodDelivery.Models.ViewModel.User;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace FoodDelivery.Service.Implementations
 {
@@ -68,6 +69,8 @@ namespace FoodDelivery.Service.Implementations
                 Login = user.Login,
                 Token = _tokenService.CreateToken(user),
             };
+            
         }
+
     }
 }

@@ -1,14 +1,7 @@
+using FoodDelivery;
 using FoodDelivery.DAL;
-using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.DAL.Repositories;
-using FoodDelivery.Models.Entity;
-using FoodDelivery.Service.Implementations;
-using FoodDelivery.Service.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+
 
 
 
@@ -27,22 +20,25 @@ builder.Services.AddAuthorization();
 //    {
 //        options.TokenValidationParameters = new TokenValidationParameters
 //        {
-//            // указывает, будет ли валидироваться издатель при валидации токена
+//            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 //            ValidateIssuer = true,
-//            // строка, представляющая издателя
+//            // пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //            ValidIssuer = AuthOptions.ISSUER,
-//            // будет ли валидироваться потребитель токена
+//            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 //            ValidateAudience = true,
-//            // установка потребителя токена
+//            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 //            ValidAudience = AuthOptions.AUDIENCE,
-//            // будет ли валидироваться время существования
+//            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //            ValidateLifetime = true,
-//            // установка ключа безопасности
+//            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-//            // валидация ключа безопасности
+//            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //            ValidateIssuerSigningKey = true,
 //        };
 //    });
+
+builder.Services.RegisterRepositories();
+builder.Services.RegisterServices();
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -59,7 +55,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 
@@ -68,9 +66,9 @@ app.Run();
 
 //public class AuthOptions
 //{
-//    public const string ISSUER = "MyAuthServer"; // издатель токена
-//    public const string AUDIENCE = "MyAuthClient"; // потребитель токена
-//    const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
+//    public const string ISSUER = "MyAuthServer"; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+//    public const string AUDIENCE = "MyAuthClient"; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+//    const string KEY = "mysupersecret_secretkey!123";   // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
 //        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
 //}
