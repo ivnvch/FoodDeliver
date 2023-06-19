@@ -10,8 +10,8 @@ namespace FoodDelivery.Controllers
     [Route("api/[controller]")]
     public class OrdersController : Controller
     {
-        private readonly IOrderService _orderService;
-        public OrdersController(IOrderService orderService)
+        private readonly IrderService _orderService;
+        public OrdersController(IrderService orderService)
         {
             _orderService = orderService;
         }

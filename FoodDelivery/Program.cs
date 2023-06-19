@@ -20,7 +20,7 @@ builder.Services.AddScoped<IBaseRepository<Basket>, BasketRepository>();
 builder.Services.AddScoped<IBaseRepository<Dish>, DishRepository>();
 builder.Services.AddScoped<IBaseRepository<Order>, OrderRepository>();
 builder.Services.AddScoped<IBaseRepository<Profile>, ProfileRepository>();
-builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IrderService, rderService>();
 
 builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();

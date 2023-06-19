@@ -1,6 +1,7 @@
 ﻿using FoodDelivery.Models.DTOs;
 using FoodDelivery.Models.Entity;
-namespace FoodDelivery.DAL.Interfaces
+
+namespace FoodDelivery.Service.Interfaces
 {
     public interface IOrderService
     {

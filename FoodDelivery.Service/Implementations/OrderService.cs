@@ -1,6 +1,6 @@
-﻿using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.DTOs;
+﻿using FoodDelivery.Models.DTOs;
 using FoodDelivery.Models.Entity;
+using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDelivery.DAL.Implementations
