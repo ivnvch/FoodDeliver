@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDelivery.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class DishController : Controller
     {
        
@@ -16,7 +18,7 @@ namespace FoodDelivery.Controllers
             this._dishService = dishService;
         }
 
-        [HttpGet]
+        [HttpGet("GetDishes")]
         public async Task<IActionResult> GetDishes()
         {
             var response = await _dishService.GetAll();
@@ -27,6 +29,7 @@ namespace FoodDelivery.Controllers
             return BadRequest();
         }
         //[Authorize(Roles = "Admin")]
+        [HttpPut("UpdateDishes")]
         public async Task<IActionResult> UpdateDishes(DishUpdateDTO dish)
         {
             if (ModelState.IsValid)
@@ -40,6 +43,7 @@ namespace FoodDelivery.Controllers
             }
         }
         //[Authorize(Roles = "Admin")]
+        [HttpPost("CreateDishes")]
         public async Task<IActionResult> CreateDishes(DishCreateDTO entity)
         {
             if (ModelState.IsValid)
@@ -54,6 +58,7 @@ namespace FoodDelivery.Controllers
 
         }
         //[Authorize(Roles = "Admin")]
+        [HttpDelete("DeleteDish/{id}")]
         public async Task<IActionResult> DeleteDish(int id)
         {
 
