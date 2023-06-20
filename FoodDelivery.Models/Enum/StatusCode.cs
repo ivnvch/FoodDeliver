@@ -6,6 +6,7 @@
         UserNotFound = 1,
 
         UserAlreadyExist = 20,
+        DishAlreadyExist = 21,
 
         OK = 200,
         InternalServerError = 500

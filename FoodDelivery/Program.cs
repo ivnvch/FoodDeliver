@@ -1,5 +1,10 @@
 using FoodDelivery;
 using FoodDelivery.DAL;
+using FoodDelivery.DAL.Implementations;
+using FoodDelivery.DAL.Interfaces;
+using FoodDelivery.DAL.Repositories;
+using FoodDelivery.Models.Entity;
+using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.IdentityModel.Tokens;
@@ -44,7 +49,6 @@ builder.Services.AddAuthorization();
 
 builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
