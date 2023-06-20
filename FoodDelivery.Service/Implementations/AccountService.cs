@@ -1,9 +1,11 @@
 using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Entity;
 using FoodDelivery.Models.Helpers;
+using FoodDelivery.Models.ViewModel;
 using FoodDelivery.Models.ViewModel.Account;
 using FoodDelivery.Models.ViewModel.User;
 using FoodDelivery.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -12,15 +14,18 @@ namespace FoodDelivery.Service.Implementations
     public class AccountService : IAccountService
     {
         private readonly IBaseRepository<User> _userRepository;
+        private readonly IBaseRepository<Profile> _profileRepository;
         private readonly ITokenService _tokenService;
 
-        public AccountService(IBaseRepository<User> userRepository, ITokenService tokenService)
+        public AccountService(IBaseRepository<User> userRepository, ITokenService tokenService, IBaseRepository<Profile> profileRepository)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
+            _profileRepository = profileRepository;
         }
 
-        public async Task<UserViewModel> Login(LoginViewModel loginViewModel)
+        [Authorize(Roles = "User")]
+        public async Task<AuthResponseModel> Login(LoginViewModel loginViewModel)
         {
             var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == loginViewModel.Login);
 
@@ -34,17 +39,12 @@ namespace FoodDelivery.Service.Implementations
                 throw new Exception("Incorrect password");
             }
 
-            var token = _tokenService.CreateToken(user);
+            var token = _tokenService.GetToken(user);
 
-            return new UserViewModel()
-            {
-                Login = loginViewModel.Login,
-                Token = token,
-
-            };
+            return token;
         }
 
-        public async Task<UserViewModel> Register(RegisterViewModel registerViewModel)
+        public async Task<AuthResponseModel> Register(RegisterViewModel registerViewModel)
         {
             var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == registerViewModel.Login);
 
@@ -59,17 +59,26 @@ namespace FoodDelivery.Service.Implementations
              {
                 Login = registerViewModel.Login,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                Role = Models.Enum.Role.User,
              };
 
             await _userRepository.CreateAsync(user);
 
-            return new UserViewModel
+            var profile = new Profile()
             {
-                Login = user.Login,
-                Token = _tokenService.CreateToken(user),
+                UserId = user.Id,
+                FirstName = "Diamond",
+                DateCreated = DateTime.Now,
+                LastName = "daa",
+                MiddleName = "d ",
+                PhoneNumber = "asd",
             };
-            
+
+            await _profileRepository.CreateAsync(profile);
+
+
+            return _tokenService.GetToken(user);
         }
 
     }

@@ -108,6 +108,19 @@ namespace FoodDelivery.Service.Implementations
             }
         }
 
+        public async Task<User> GetUser(string userToken)
+        {
+            var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync( x => x.Login == userToken);
+
+            if (user == null)
+            {
+                throw new Exception("User not Found");
+            }
+
+            return user;
+        }
+
+
         public async Task<IBaseResponse<IEnumerable<UserViewModel>>> GetUsers()
         {
             try
