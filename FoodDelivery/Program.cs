@@ -1,23 +1,12 @@
 using FoodDelivery;
 using FoodDelivery.DAL;
-using FoodDelivery.DAL.Implementations;
-using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.DAL.Repositories;
-using FoodDelivery.Models.Entity;
-using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
-using System.Text;
- 
 
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
@@ -25,27 +14,7 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(conne
 builder.Services.AddControllers();
 
 builder.Services.AddAuthorization();
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            // ���������, ����� �� �������������� �������� ��� ��������� ������
-//            ValidateIssuer = true,
-//            // ������, �������������� ��������
-//            ValidIssuer = AuthOptions.ISSUER,
-//            // ����� �� �������������� ����������� ������
-//            ValidateAudience = true,
-//            // ��������� ����������� ������
-//            ValidAudience = AuthOptions.AUDIENCE,
-//            // ����� �� �������������� ����� �������������
-//            ValidateLifetime = true,
-//            // ��������� ����� ������������
-//            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-//            // ��������� ����� ������������
-//            ValidateIssuerSigningKey = true,
-//        };
-//    });
+
 
 builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();
@@ -75,8 +44,6 @@ builder.Services.AddSwaggerGen(c =>
                          new string[] { }
                      }
                 });
-    //var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    //c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 var app = builder.Build();
@@ -99,13 +66,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
-//public class AuthOptions
-//{
-//    public const string ISSUER = "MyAuthServer"; // �������� ������
-//    public const string AUDIENCE = "MyAuthClient"; // ����������� ������
-//    const string KEY = "mysupersecret_secretkey!123";   // ���� ��� ��������
-//    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-//        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-//}

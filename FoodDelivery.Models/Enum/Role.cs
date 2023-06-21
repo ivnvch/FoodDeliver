@@ -1,6 +1,4 @@
-﻿
-
-namespace FoodDelivery.Models.Enum
+﻿namespace FoodDelivery.Models.Enum
 {
     public enum Role
     {

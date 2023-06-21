@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
+
 
 namespace FoodDelivery.Models.Helpers
 {
@@ -11,9 +7,9 @@ namespace FoodDelivery.Models.Helpers
     {
         public static string GetLogin(ClaimsPrincipal claimsPrincipal)
         {
-            string username = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == "UserLogin")?.Value;
+            string userLogin = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == "UserLogin")?.Value;
 
-            return username;
+            return userLogin;
         }
     }
 }

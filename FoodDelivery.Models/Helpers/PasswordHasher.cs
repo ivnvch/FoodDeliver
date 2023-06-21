@@ -2,9 +2,9 @@
 
 namespace FoodDelivery.Models.Helpers
 {
-    public class PasswordHashHelpers
+    public class PasswordHasher
     {
-        public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        public static void PasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             var hmac = new System.Security.Cryptography.HMACSHA512();
             passwordSalt = hmac.Key;
