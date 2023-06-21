@@ -1,12 +1,16 @@
-﻿using FoodDelivery.Models.Repsonse;
+﻿using FoodDelivery.Models.Entity;
+using FoodDelivery.Models.ViewModel;
 using FoodDelivery.Models.ViewModel.Account;
-using System.Security.Claims;
+using FoodDelivery.Models.ViewModel.User;
+using FoodDelivery.Service.Implementations;
+
 
 namespace FoodDelivery.Service.Interfaces
 {
     public interface IAccountService
     {
-        Task<IBaseResponse<ClaimsIdentity>> Register(RegisterViewModel viewModel);
-        Task<IBaseResponse<ClaimsIdentity>> Login(LoginViewModel viewModel);
+        Task<AuthResponseModel> Register(RegisterViewModel registerViewModel);
+        Task<AuthResponseModel> Login(LoginViewModel loginViewModel);
+
     }
 }

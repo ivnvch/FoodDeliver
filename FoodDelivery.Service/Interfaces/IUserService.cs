@@ -10,5 +10,6 @@ namespace FoodDelivery.Service.Interfaces
         Task<IBaseResponse<User>> CreateUser(UserViewModel viewModel);
         Task<IBaseResponse<IEnumerable<UserViewModel>>> GetUsers();
         Task<IBaseResponse<bool>> DeleteUser(int id);
+        Task<User> GetUser(string userToken);
     }
 }

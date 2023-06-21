@@ -38,7 +38,7 @@ namespace FoodDelivery.Service.Implementations
                 user = new User()
                 {
                     Login = viewModel.Login,
-                    Password = viewModel.Password,//нужно захешировать пароль
+                    //Password = viewModel.Password,//нужно захешировать пароль
                 };
 
                 await _userRepository.CreateAsync(user);
@@ -107,6 +107,19 @@ namespace FoodDelivery.Service.Implementations
                 };
             }
         }
+
+        public async Task<User> GetUser(string userToken)
+        {
+            var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync( x => x.Login == userToken);
+
+            if (user == null)
+            {
+                throw new Exception("User not Found");
+            }
+
+            return user;
+        }
+
 
         public async Task<IBaseResponse<IEnumerable<UserViewModel>>> GetUsers()
         {

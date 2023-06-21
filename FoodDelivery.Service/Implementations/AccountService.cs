@@ -1,11 +1,12 @@
-﻿using FoodDelivery.DAL.Interfaces;
+using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Entity;
-using FoodDelivery.Models.Enum;
-using FoodDelivery.Models.Repsonse;
+using FoodDelivery.Models.Helpers;
+using FoodDelivery.Models.ViewModel;
 using FoodDelivery.Models.ViewModel.Account;
+using FoodDelivery.Models.ViewModel.User;
 using FoodDelivery.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 
 namespace FoodDelivery.Service.Implementations
@@ -14,121 +15,71 @@ namespace FoodDelivery.Service.Implementations
     {
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Profile> _profileRepository;
-        private readonly IBaseRepository<Basket> _basketRepository;
+        private readonly ITokenService _tokenService;
 
-        public AccountService(IBaseRepository<User> userRepository, IBaseRepository<Profile> profileRepository, IBaseRepository<Basket> basketRepository)
+        public AccountService(IBaseRepository<User> userRepository, ITokenService tokenService, IBaseRepository<Profile> profileRepository)
         {
             _userRepository = userRepository;
+            _tokenService = tokenService;
             _profileRepository = profileRepository;
-            _basketRepository = basketRepository;
         }
 
-        public async Task<IBaseResponse<ClaimsIdentity>> Register(RegisterViewModel viewModel)
+        [Authorize(Roles = "User")]
+        public async Task<AuthResponseModel> Login(LoginViewModel loginViewModel)
         {
-            try
+            var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == loginViewModel.Login);
+
+            if (user == null)
             {
-                var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == viewModel.Login);
-
-                if (user != null)
-                {
-                    return new BaseResponse<ClaimsIdentity>()
-                    {
-                        Description = "Пользователь с таким логином уже существует. Выберите другой логин.",
-                        StatusCode = StatusCode.UserAlreadyExist
-                    };
-                }
-
-                user = new User()
-                {
-                    Login = viewModel.Login,
-                    Password = viewModel.Password,
-                };
-
-                await _userRepository.CreateAsync(user);
-
-                var profile = new Profile()
-                {
-                    UserId = user.Id,
-                };
-
-                var basket = new Basket()
-                {
-                    UserId = user.Id,
-                };
-
-                await _profileRepository.CreateAsync(profile);
-                await _basketRepository.CreateAsync(basket);
-
-                var result = Authenticate(user);
-
-                return new BaseResponse<ClaimsIdentity>()
-                {
-                    Data = result,
-                    StatusCode = StatusCode.OK,
-                    Description = "Аккаунт Успешно зарегистрирован"
-                };
-
+                throw new Exception("Incorrect login");
             }
-            catch (Exception ex)
+
+            if (!PasswordHashHelpers.VerifyPassword(loginViewModel.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return new BaseResponse<ClaimsIdentity>()
-                {
-                    StatusCode = StatusCode.InternalServerError,
-                    Description = $"Внутренняя ошибка: {ex.Message}"
-                };
+                throw new Exception("Incorrect password");
             }
+
+            var token = _tokenService.GetToken(user);
+
+            return token;
         }
 
-
-        public async Task<IBaseResponse<ClaimsIdentity>> Login(LoginViewModel viewModel)
+        public async Task<AuthResponseModel> Register(RegisterViewModel registerViewModel)
         {
-            try
+            var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == registerViewModel.Login);
+
+            if (user != null)
             {
-                var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == viewModel.Login);
-
-                if (user == null)
-                {
-                    return new BaseResponse<ClaimsIdentity>()
-                    {
-                        Description = "Проверьте правильность введённых данных",
-                    };
-                }
-
-                if (user.Password != viewModel.Password)
-                {
-                    return new BaseResponse<ClaimsIdentity>()
-                    {
-                        Description = "Проверьте правильность введённых данных",
-                    };
-                }
-
-                var result = Authenticate(user);
-
-                return new BaseResponse<ClaimsIdentity>()
-                {
-                    Data = result,
-                    StatusCode = StatusCode.OK,
-                };
-
+                throw new Exception("This login already exists");
             }
-            catch (Exception ex)
-            {
-                return new BaseResponse<ClaimsIdentity>()
-                {
-                    StatusCode = StatusCode.InternalServerError,
-                    Description = ex.Message,
-                };
-            }
-        }
 
-        private ClaimsIdentity Authenticate(User user)
-        {
-            var claims = new List<Claim>
+            byte[] passwordHash, passwordSalt;//?
+            PasswordHashHelpers.CreatePasswordHash(registerViewModel.Password, out passwordHash, out passwordSalt);
+             user = new User
+             {
+                Login = registerViewModel.Login,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Role = Models.Enum.Role.User,
+             };
+
+            await _userRepository.CreateAsync(user);
+
+            var profile = new Profile()
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
+                UserId = user.Id,
+                FirstName = "Diamond",
+                DateCreated = DateTime.Now,
+                LastName = "daa",
+                MiddleName = "d ",
+                PhoneNumber = "asd",
             };
 
-            return new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            await _profileRepository.CreateAsync(profile);
+
+
+            return _tokenService.GetToken(user);
         }
+
     }
 }

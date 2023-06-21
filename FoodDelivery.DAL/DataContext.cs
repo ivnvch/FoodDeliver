@@ -8,6 +8,7 @@ namespace FoodDelivery.DAL
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            
         }
 
         public DbSet<User> Users { get; set; } = null!;
@@ -15,6 +16,7 @@ namespace FoodDelivery.DAL
         public DbSet<Basket> Baskets { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Dish> Dishes { get; set; } = null!;
+        public DbSet<Role> Roles { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,7 +26,7 @@ namespace FoodDelivery.DAL
                 builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
                 builder.Property(x => x.Login).IsRequired();
-                builder.Property(x => x.Password).IsRequired();
+                builder.Property(x => x.PasswordHash).IsRequired();
 
 
                 builder.HasOne(u => u.Profile)
