@@ -1,4 +1,4 @@
-﻿namespace FoodDelivery.Models.Entity
+﻿namespace FoodDelivery.DAL.Entity
 {
     public class Basket
     {

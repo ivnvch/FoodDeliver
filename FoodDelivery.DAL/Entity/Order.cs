@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FoodDelivery.Models.Entity
+namespace FoodDelivery.DAL.Entity
 {
     public class Order
     {

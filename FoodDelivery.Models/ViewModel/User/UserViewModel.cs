@@ -14,6 +14,7 @@ namespace FoodDelivery.Models.ViewModel.User
         [Required(ErrorMessage = "Укажите логин")]
         [Display(Name = "Логин")]
         public string Login { get; set; }
+        public string Token { get; set; }
 
         [Required(ErrorMessage = "Укажите пароль")]
         [Display(Name = "Пароль")]

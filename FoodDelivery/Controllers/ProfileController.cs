@@ -1,8 +1,8 @@
-﻿using FoodDelivery.Models.Entity;
-using FoodDelivery.Models.ViewModel.Profile;
+﻿using FoodDelivery.Models.ViewModel.Profile;
 using FoodDelivery.Service.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FoodDelivery.Controllers
 {
@@ -20,8 +20,8 @@ namespace FoodDelivery.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProfile()
         {
-            var login = User.Identity.Name;
-            var profile = await _profileService.GetProfile(login);
+            string tokenString = User.Claims.FirstOrDefault(x => x.Type == "UserLogin")?.Value;
+            var profile = await _profileService.GetProfile(tokenString);
 
             if (profile.StatusCode == Models.Enum.StatusCode.OK)
             {
