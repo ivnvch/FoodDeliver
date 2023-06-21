@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FoodDelivery.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialize : Migration
+    public partial class DCModelSnapshot : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

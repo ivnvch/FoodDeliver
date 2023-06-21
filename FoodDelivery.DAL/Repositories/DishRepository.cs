@@ -1,39 +1,16 @@
-﻿using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.Entity;
+﻿using FoodDelivery.DAL.Entity;
+using FoodDelivery.DAL.Interfaces;
 
 namespace FoodDelivery.DAL.Repositories
 {
-    public class DishRepository : IBaseRepository<Dish>
+    public class DishRepository : BaseRepository<Dish>, IDishRepository
     {
-        private readonly DataContext _context;
+
         public DishRepository(DataContext context)
+            : base(context)
         {
-            _context = context;
+
         }
 
-        public async Task CreateAsync(Dish entity)
-        {
-            await _context.Dishes.AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(Dish entity)
-        {
-            _context.Dishes.Remove(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public IQueryable<Dish> GetAllAsync()
-        {
-            return _context.Dishes;
-        }
-
-        public async Task<Dish> UpdateAsync(Dish entity)
-        {
-            _context.Dishes.Update(entity);
-            await _context.SaveChangesAsync();
-
-            return entity;
-        }
     }
 }

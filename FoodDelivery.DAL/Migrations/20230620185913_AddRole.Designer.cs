@@ -4,6 +4,7 @@ using FoodDelivery.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230620185913_AddRole")]
+    partial class AddRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,11 +90,8 @@ namespace FoodDelivery.DAL.Migrations
                     b.Property<DateTime>("DateCreate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DishId")
+                    b.Property<int?>("DishId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsComplete")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -138,22 +138,6 @@ namespace FoodDelivery.DAL.Migrations
                     b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("FoodDelivery.Models.Entity.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("FoodDelivery.Models.Entity.User", b =>
                 {
                     b.Property<int>("Id")
@@ -177,12 +161,7 @@ namespace FoodDelivery.DAL.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -220,21 +199,9 @@ namespace FoodDelivery.DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FoodDelivery.Models.Entity.User", b =>
-                {
-                    b.HasOne("FoodDelivery.Models.Entity.Role", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId");
-                });
-
             modelBuilder.Entity("FoodDelivery.Models.Entity.Basket", b =>
                 {
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("FoodDelivery.Models.Entity.Role", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("FoodDelivery.Models.Entity.User", b =>

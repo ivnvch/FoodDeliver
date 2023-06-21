@@ -1,6 +1,5 @@
-﻿
+﻿using FoodDelivery.DAL.Entity;
 using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.Entity;
 using FoodDelivery.Models.Enum;
 using FoodDelivery.Models.Repsonse;
 using FoodDelivery.Models.ViewModel.User;
@@ -11,20 +10,19 @@ namespace FoodDelivery.Service.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly IBaseRepository<User> _userRepository;
-        private readonly IBaseRepository<Profile> _profileRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IBaseRepository<User> userRepository, IBaseRepository<Profile> profileRepository)
+        public UserService(IUnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;
-            _profileRepository = profileRepository;
+            _unitOfWork = unitOfWork;
         }
+
 
         public async Task<IBaseResponse<User>> CreateUser(UserViewModel viewModel)
         {
             try
             {
-                var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == viewModel.Login);
+                User user = (User) await _unitOfWork.UserRepository.FindByConditionAsync(x => x.Login == viewModel.Login);
 
                 if (user != null)
                 {
@@ -38,10 +36,11 @@ namespace FoodDelivery.Service.Implementations
                 user = new User()
                 {
                     Login = viewModel.Login,
-                    Password = viewModel.Password,//нужно захешировать пароль
+                    //Password = viewModel.Password,//нужно захешировать пароль
                 };
 
-                await _userRepository.CreateAsync(user);
+                await _unitOfWork.UserRepository.CreateAsync(user);
+                await _unitOfWork.SaveAsync();
 
                 var profile = new Profile()
                 {
@@ -53,7 +52,8 @@ namespace FoodDelivery.Service.Implementations
                     UserId = user.Id,
                 };
 
-                await _profileRepository.CreateAsync(profile);
+                await _unitOfWork.ProfileRepository.CreateAsync(profile);
+                await _unitOfWork.SaveAsync();
 
                 return new BaseResponse<User>()
                 {
@@ -77,9 +77,9 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Id == id);
+                User user = (User) await _unitOfWork.UserRepository.FindByConditionAsync(x => x.Id == id);
 
-                if (user == null)
+                if (user is null)
                 {
                     return new BaseResponse<bool>()
                     {
@@ -89,7 +89,8 @@ namespace FoodDelivery.Service.Implementations
                     };
                 }
 
-                await _userRepository.DeleteAsync(user);
+                await _unitOfWork.UserRepository.DeleteAsync(user);
+                await _unitOfWork.SaveAsync();
 
                 return new BaseResponse<bool>()
                 {
@@ -108,33 +109,46 @@ namespace FoodDelivery.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<UserViewModel>>> GetUsers()
+        public async Task<User> GetUser(string userToken)
         {
-            try
+            var user = (User) await _unitOfWork.UserRepository.FindByConditionAsync( x => x.Login == userToken);
+
+            if (user is null)
             {
-                var users = await _userRepository.GetAllAsync().
-                    Select(x => new UserViewModel()
-                    {
-                        Id = x.Id,
-                        Login = x.Login,
-
-                    }).ToListAsync();
-
-                return new BaseResponse<IEnumerable<UserViewModel>>()
-                {
-                    Data = users,
-                    StatusCode = StatusCode.OK,
-                };
-
+                throw new Exception("User not Found");
             }
-            catch (Exception ex)
-            {
-                return new BaseResponse<IEnumerable<UserViewModel>>()
-                {
-                    Description = $"Внутренняя ошибка {ex.Message}",
-                    StatusCode = StatusCode.InternalServerError,
-                };
-            }
+
+            return user;
         }
+
+
+        //public async Task<IBaseResponse<IEnumerable<UserViewModel>>> GetUsers()
+        //{
+        //    try
+        //    {
+        //        var users = await _unitOfWork.UserRepository.GetAllAsync().
+        //            Select(x => new UserViewModel()
+        //            {
+        //                Id = x.Id,
+        //                Login = x.Login,
+
+        //            }).ToListAsync();
+
+        //        return new BaseResponse<IEnumerable<UserViewModel>>()
+        //        {
+        //            Data = users,
+        //            StatusCode = StatusCode.OK,
+        //        };
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new BaseResponse<IEnumerable<UserViewModel>>()
+        //        {
+        //            Description = $"Внутренняя ошибка {ex.Message}",
+        //            StatusCode = StatusCode.InternalServerError,
+        //        };
+        //    }
+        //}
     }
 }

@@ -1,40 +1,16 @@
-﻿using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.Entity;
+﻿using FoodDelivery.DAL.Entity;
+using FoodDelivery.DAL.Interfaces;
 
 namespace FoodDelivery.DAL.Repositories
 {
-    public class OrderRepository : IBaseRepository<Order>
+    public class OrderRepository : BaseRepository<Order>, IOrderRepository
     {
-        private readonly DataContext _context;
 
         public OrderRepository(DataContext context)
+            : base(context)
         {
-            _context = context;
+           
         }
 
-        public async Task CreateAsync(Order entity)
-        {
-            await _context.Orders.AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(Order entity)
-        {
-            _context.Orders.Remove(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public IQueryable<Order> GetAllAsync()
-        {
-            return _context.Orders;
-        }
-
-        public async Task<Order> UpdateAsync(Order entity)
-        {
-            _context.Orders.Update(entity);
-            await _context.SaveChangesAsync();
-
-            return entity;
-        }
     }
 }
