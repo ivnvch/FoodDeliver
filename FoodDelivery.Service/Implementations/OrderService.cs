@@ -46,11 +46,9 @@ namespace FoodDelivery.DAL.Implementations
                 order.DateCreate = orderDto.DateCreate;
                 order.Price = orderDto.Price;
                 order.IsComplete = orderDto.IsComplete;
-                //order.Dishes = orderDto.Dishes;
-                //order.Basket = await GetBasketAsync(orderDto.BasketId);
-                //get USER
-                var user = new User { };
-                order.User = user;
+                order.BasketId = orderDto.BasketId;
+                order.DishId = orderDto.DishId;
+                order.Basket = await _db.Baskets.FirstOrDefaultAsync(x => x.Id == order.BasketId);
                 order.Address = orderDto.Address;
                 order.Commentary = orderDto.Commentary;
                 _db.Orders.Add(order);

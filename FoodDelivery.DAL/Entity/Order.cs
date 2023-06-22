@@ -9,10 +9,14 @@ namespace FoodDelivery.DAL.Entity
         public int Id { get; set; }
         public DateTime DateCreate { get; set; }
         public decimal Price { get; set; }
-        public List<Vendor> Dishes { get; set; } = new List<Vendor> {};
+        public int DishId { get; set; }
+        [ForeignKey("BasketId")]
+        public int BasketId { get; set; }
+        public Basket Basket { get; set; }
+        /*public List<Vendor> Dishes { get; set; } = new List<Vendor> {};
         [ForeignKey("UserId")]
         public int UserId { get; set; }
-        public User? User { get; set; }
+        public User? User { get; set; }*/
         public bool IsComplete { get; set; } = false;
         public string Address { get; set; } = string.Empty;
         public string? Commentary { get; set; } = string.Empty; 
