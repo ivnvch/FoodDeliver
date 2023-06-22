@@ -25,6 +25,26 @@ namespace FoodDelivery.Service.Implementations
                 throw new Exception("error when getting an vendor list ", ex);
             }
         }
+        public async Task<IEnumerable<Vendor>> SortingByRatingAsync()
+        {
+            var vendors = await _db.Vendors.AsNoTracking().ToListAsync();
+            for (int i = 0; i < vendors.Count; i++)
+            {
+                vendors[i].CustomerRaiting = await GetСustomerRatingAsync(vendors[i].Id);
+            }
+            var vendorsSorting = from i in vendors
+                              orderby i.CustomerRaiting
+                              select i;
+            return vendorsSorting;
+        }
+        public async Task<IEnumerable<Vendor>> SortingByDeliveryTimeAsync()
+        {
+            IEnumerable<Vendor> vendors = await GetListAsync();
+            var vendorsSorting = from i in vendors
+                              orderby i.TimeOfDelivery
+                              select i;
+            return vendorsSorting;
+        }
         public async Task<Vendor> GetByIdAsync(int id)
         {
             try
