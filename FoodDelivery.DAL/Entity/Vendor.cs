@@ -12,7 +12,7 @@ namespace FoodDelivery.DAL.Entity
         public string Type { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public List<Vendor> Dishes { get; set; } = new List<Vendor> { };
-        public List<Review> Comments { get; set; } = new List<Review> { };
+        public List<Review> Reviews { get; set; } = new List<Review> { };
         public string? Description { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
