@@ -10,5 +10,8 @@ namespace FoodDelivery.Service.Interfaces
         Task<bool> CreateAsync(VendorDto model);
         Task<bool> UpdateAsync(Vendor model);
         Task<bool> DeleteAsync(int id);
+        //Task<double> GetСustomerRatingAsync(int id);
+        //Task<IEnumerable<Vendor>> SortingByDeliveryTimeAsync();
+        //Task<IEnumerable<Vendor>> SortingByRatingAsync();
     }
 }
