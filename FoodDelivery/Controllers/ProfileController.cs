@@ -33,7 +33,7 @@ namespace FoodDelivery.Controllers
             return NoContent();
         }
 
-        [HttpPut("Save")]
+        [HttpPut("SaveProfile")]
         public async Task<IActionResult> Save(ProfileViewModel viewModel)
         {
             if (ModelState.IsValid)

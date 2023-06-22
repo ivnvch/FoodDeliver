@@ -1,19 +1,12 @@
 ﻿using FoodDelivery.DAL.Repositories;
 using FoodDelivery.DAL;
-using FoodDelivery.Models.Entity.DTOs;
-using FoodDelivery.Models.Entity;
 using FoodDelivery.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Repsonse;
 using FoodDelivery.Models.ViewModel.DishViewModel;
 using FoodDelivery.Models.Enum;
-using FoodDelivery.Models.ViewModel.User;
+using FoodDelivery.DAL.Entity;
 
 namespace FoodDelivery.Service.Implementations
 {
@@ -34,19 +27,19 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                var dishes = await _dishRepo.GetAllAsync().
-                Select(x => new DishViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    Price = x.Price,
-                    Weight = x.Weight,
+                var dishes = await _dishRepo.GetAllAsync();
+                //Select(x => new DishViewModel()
+                //{
+                //    Id = x.Id,
+                //    Name = x.Name,
+                //    Description = x.Description,
+                //    Price = x.Price,
+                //    Weight = x.Weight,
 
-                }).ToListAsync();
+                //}).ToListAsync();
                 return new BaseResponse<IEnumerable<DishViewModel>>()
                 {
-                    Data = dishes,
+                    Data = null,
                     StatusCode = StatusCode.OK,
                 };
             }
@@ -113,7 +106,7 @@ namespace FoodDelivery.Service.Implementations
                 dish.Price = model.Price;
                 dish.Weight = model.Weight;
                 dish.Category = model.Category;
-                 await _dishRepo.UpdateAsync(dish);
+                await _dishRepo.UpdateAsync(dish);
                 return new BaseResponse<bool>()
                 {
                     Data = true,
@@ -121,7 +114,7 @@ namespace FoodDelivery.Service.Implementations
                     Description = "Блюдо обновлено",
                 };
             }
-             catch (Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("ошибка при обновлении блюда ", ex);
             }

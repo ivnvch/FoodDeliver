@@ -21,7 +21,7 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                User user = (User) await _unitOfWork.UserRepository.FindByConditionAsync(x => x.Id == id);
+                User user = await _unitOfWork.UserRepository.FindByConditionAsync(x => x.Id == id)?.Result.FirstOrDefaultAsync();
 
                 if (user is null)
                 {
@@ -55,7 +55,7 @@ namespace FoodDelivery.Service.Implementations
 
         public async Task<User> GetUser(string userToken)
         {
-            var user = (User) await _unitOfWork.UserRepository.FindByConditionAsync( x => x.Login == userToken);
+            User user =  await _unitOfWork.UserRepository.FindByConditionAsync( x => x.Login == userToken).Result.FirstOrDefaultAsync();
 
             if (user is null)
             {
