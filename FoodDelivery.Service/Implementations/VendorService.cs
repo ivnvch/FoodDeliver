@@ -39,6 +39,25 @@ namespace FoodDelivery.Service.Implementations
                 throw new Exception("vendor search error ", ex);
             }
         }
+        public async Task<double> GetСustomerRatingAsync(int id)
+        {
+            try
+            {
+                double customerRating = 0;
+                Vendor vendor = await GetByIdAsync(id);
+                List<Review> reviews = vendor.Reviews.ToList();
+                for (int i = 0; i < reviews.Count; i++)
+                {
+                    customerRating += reviews[i].CustomerRating;
+                }
+                customerRating /= reviews.Count;
+                return customerRating;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("error when getting rating ", ex);
+            }
+        }
         public async Task<bool> CreateAsync(VendorDto vendorDto)
         {
             try
