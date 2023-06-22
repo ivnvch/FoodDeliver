@@ -1,13 +1,14 @@
-﻿using FoodDelivery.Models.ViewModel.Profile;
+﻿using FoodDelivery.Models.Helpers;
+using FoodDelivery.Models.ViewModel.Profile;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace FoodDelivery.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProfileController : ControllerBase
     {
         private readonly IProfileService _profileService;
@@ -20,8 +21,9 @@ namespace FoodDelivery.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProfile()
         {
-            string tokenString = User.Claims.FirstOrDefault(x => x.Type == "UserLogin")?.Value;
-            var profile = await _profileService.GetProfile(tokenString);
+
+            string login = IdentityHelper.GetLogin(User);
+            var profile = await _profileService.GetProfile(login);
 
             if (profile.StatusCode == Models.Enum.StatusCode.OK)
             {
@@ -31,7 +33,7 @@ namespace FoodDelivery.Controllers
             return NoContent();
         }
 
-        [HttpPut]
+        [HttpPut("SaveProfile")]
         public async Task<IActionResult> Save(ProfileViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -40,11 +42,11 @@ namespace FoodDelivery.Controllers
 
                 if (response.StatusCode == Models.Enum.StatusCode.OK)
                 {
-                    return NoContent();
+                    return Ok();
                 }
             }
 
-            return BadRequest();
+            return NoContent();
         }
     }
 }

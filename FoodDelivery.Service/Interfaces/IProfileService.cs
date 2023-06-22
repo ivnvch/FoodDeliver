@@ -1,4 +1,4 @@
-﻿using FoodDelivery.Models.Entity;
+﻿using FoodDelivery.DAL.Entity;
 using FoodDelivery.Models.Repsonse;
 using FoodDelivery.Models.ViewModel.Profile;
 
