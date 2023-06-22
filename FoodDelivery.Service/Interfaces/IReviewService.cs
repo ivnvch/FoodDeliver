@@ -5,10 +5,10 @@ namespace FoodDelivery.Service.Interfaces
 {
     public interface IReviewService
     {
-        Task<IEnumerable<Order>> GetListAsync();
-        Task<Order> GetByIdAsync(int id);
-        Task<bool> CreateAsync(OrderDto model);
-        Task<bool> UpdateAsync(Order model);
+        Task<IEnumerable<Review>> GetListAsync();
+        Task<Review> GetByIdAsync(int id);
+        Task<bool> CreateAsync(ReviewDto model);
+        Task<bool> UpdateAsync(Review model);
         Task<bool> DeleteAsync(int id);
     }
 }

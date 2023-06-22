@@ -1,7 +1,6 @@
 ﻿using FoodDelivery.DAL.Repositories;
 using FoodDelivery.DAL;
 using FoodDelivery.Models.Entity.DTOs;
-using FoodDelivery.Models.Entity;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using FoodDelivery.DAL.Interfaces;
@@ -9,6 +8,7 @@ using FoodDelivery.Models.Repsonse;
 using FoodDelivery.Models.ViewModel.Dish;
 using FoodDelivery.Models.Enum;
 using FoodDelivery.Models.ViewModel.User;
+using FoodDelivery.DAL.Entity;
 
 namespace FoodDelivery.Service.Implementations
 {
