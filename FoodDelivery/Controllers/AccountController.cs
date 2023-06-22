@@ -1,20 +1,14 @@
-﻿using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.Entity;
-using FoodDelivery.Models.Helpers;
-using FoodDelivery.Models.ViewModel.Account;
-using FoodDelivery.Models.ViewModel.User;
+﻿using FoodDelivery.Models.ViewModel.Account;
 using FoodDelivery.Service.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
+
 
 namespace FoodDelivery.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
@@ -24,13 +18,18 @@ namespace FoodDelivery.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             try
             {
-                var userRegister = await _accountService.Register(registerViewModel);
-                return Ok(userRegister);
+                if (ModelState.IsValid)
+                {
+                    var userRegister = await _accountService.Register(registerViewModel);
+                    return Ok(userRegister);
+                }
+
+                return BadRequest("Invalid Data");
             }
             catch (Exception ex)
             {
@@ -38,16 +37,16 @@ namespace FoodDelivery.Controllers
             }
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
-            if (loginViewModel == null)
+            if (ModelState.IsValid)
             {
-                return BadRequest("Invalid Data");
+                var loginUser = await _accountService.Login(loginViewModel);
+                return Ok(loginUser);
             }
 
-            var loginUser = await _accountService.Login(loginViewModel);
-            return Ok(loginUser);
+            return BadRequest("Invalid Data");
         }
     }
 }
