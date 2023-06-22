@@ -1,4 +1,5 @@
-﻿using FoodDelivery.DAL.Interfaces;
+﻿using FoodDelivery.DAL.Entity;
+using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.ViewModel.DTOs;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -47,13 +48,22 @@ namespace FoodDelivery.Controllers
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(orderDto.Id);
 
-               // if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-               // {
-                    order.DateCreate = orderDto.DateCreate;
-                    order.DishId = orderDto.DishId;
+                // if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                // {
+                
                     order.IsComplete = orderDto.IsComplete;
-                    order.BasketId = orderDto.BasketId;
-                    return await _orderService.UpdateAsync(order) ? Ok("order has been updated") : BadRequest("order not updated");
+                order.DateCreate = orderDto.DateCreate;
+                order.Price = orderDto.Price;
+                order.IsComplete = orderDto.IsComplete;
+                //order.Dishes = orderDto.Dishes;
+                //order.Basket = await GetBasketAsync(orderDto.BasketId);
+                //get USER
+                var user = new User { };
+                order.User = user;
+                order.Address = orderDto.Address;
+                order.Commentary = orderDto.Commentary;
+                order.DateCreate = orderDto.DateCreate;
+                return await _orderService.UpdateAsync(order) ? Ok("order has been updated") : BadRequest("order not updated");
                // }
                // return Forbid();
             }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FoodDelivery.Models.ViewModel.DishViewModel
+namespace FoodDelivery.Models.ViewModel.Dish
 {
     public class DishViewModel
     {

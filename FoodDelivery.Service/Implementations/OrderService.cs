@@ -44,10 +44,15 @@ namespace FoodDelivery.DAL.Implementations
             {
                 Order order = new Order();
                 order.DateCreate = orderDto.DateCreate;
-                order.DishId = orderDto.DishId;
+                order.Price = orderDto.Price;
                 order.IsComplete = orderDto.IsComplete;
-                order.BasketId = orderDto.BasketId;
-                order.Basket = await GetBasketAsync(orderDto.BasketId);
+                //order.Dishes = orderDto.Dishes;
+                //order.Basket = await GetBasketAsync(orderDto.BasketId);
+                //get USER
+                var user = new User { };
+                order.User = user;
+                order.Address = orderDto.Address;
+                order.Commentary = orderDto.Commentary;
                 _db.Orders.Add(order);
                 return await SaveAsync();
             }
