@@ -1,5 +1,5 @@
-﻿using FoodDelivery.Models.DTOs;
-using FoodDelivery.Models.Entity;
+﻿using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.ViewModel.DTOs;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

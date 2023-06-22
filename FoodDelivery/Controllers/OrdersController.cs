@@ -1,5 +1,5 @@
 ﻿using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.DTOs;
+using FoodDelivery.Models.ViewModel.DTOs;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
