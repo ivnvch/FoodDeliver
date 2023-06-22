@@ -3,7 +3,6 @@ using FoodDelivery.DAL;
 using FoodDelivery.Models.ViewModel.DTOs;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace FoodDelivery.Service.Implementations
 {
@@ -45,14 +44,14 @@ namespace FoodDelivery.Service.Implementations
             try
             {
                 Vendor vendor = new Vendor();
-                vendor.Type = vendor.Type;
-                vendor.Name = vendor.Name;
-                vendor.PhoneNumber = vendor.PhoneNumber;
-                vendor.Address = vendor.Address;
-                vendor.OpeningTime = vendor.OpeningTime;
-                vendor.ClosingTime = vendor.ClosingTime;
-                vendor.TimeOfDelivery = vendor.TimeOfDelivery;
-                vendor.Description = vendor.Description;
+                vendor.Type = vendorDto.Type;
+                vendor.Name = vendorDto.Name;
+                vendor.PhoneNumber = vendorDto.PhoneNumber;
+                vendor.Address = vendorDto.Address;
+                vendor.OpeningTime = vendorDto.OpeningTime;
+                vendor.ClosingTime = vendorDto.ClosingTime;
+                vendor.TimeOfDelivery = vendorDto.TimeOfDelivery;
+                vendor.Description = vendorDto.Description;
                 _db.Vendors.Add(vendor);
                 return await SaveAsync();
             }

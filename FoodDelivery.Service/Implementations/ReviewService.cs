@@ -45,10 +45,10 @@ namespace FoodDelivery.Service.Implementations
             try
             {
                 Review review = new Review();
-                review.CreationDate = review.CreationDate;
-                review.UserId = review.UserId;
-                review.CustomerRating = review.CustomerRating;
-                review.Description = review.Description;
+                review.CreationDate = reviewDto.CreationDate;
+                review.UserId = reviewDto.UserId;
+                review.CustomerRating = reviewDto.CustomerRating;
+                review.Description = reviewDto.Description;
                 _db.Reviews.Add(review);
                 return await SaveAsync();
             }
