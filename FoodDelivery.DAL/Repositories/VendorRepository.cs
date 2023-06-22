@@ -3,13 +3,12 @@ using FoodDelivery.DAL.Interfaces;
 
 namespace FoodDelivery.DAL.Repositories
 {
-    public class UserRepository : BaseRepository<User>, IUserRepository
+    public class VendorRepository : BaseRepository<Vendor>, IVendorRepository
     {
-        public UserRepository(DataContext context)
+        public VendorRepository(DataContext context)
             : base(context)
         {
 
         }
-        
     }
 }

@@ -1,4 +1,3 @@
-using FoodDelivery.DAL.Entity;
 using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Service.Implementations;
@@ -16,6 +15,8 @@ namespace FoodDelivery
             services.AddScoped<IDishRepository, DishRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IVendorRepository, VendorRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         }

@@ -10,7 +10,20 @@ namespace FoodDelivery.DAL.Repositories
         private IOrderRepository _orderRepository;
         private IProfileRepository _profileRepository;
         private IUserRepository _userRepository;
+        private IVendorRepository _vendorRepository;
 
+        public IVendorRepository VendorRepository
+        {
+            get
+            {
+                if (_vendorRepository is null)
+                {
+                    _vendorRepository = new VendorRepository(_context);
+                }
+
+                return _vendorRepository;
+            }
+        }
         public IBasketRepository BasketRepository
         {
             get

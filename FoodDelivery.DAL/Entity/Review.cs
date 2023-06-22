@@ -6,7 +6,7 @@ namespace FoodDelivery.DAL.Entity
     public class Review
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         [ForeignKey("UserId")]
         public int UserId { get; set; }

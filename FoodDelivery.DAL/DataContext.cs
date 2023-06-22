@@ -16,7 +16,9 @@ namespace FoodDelivery.DAL
         public DbSet<Profile> Profiles { get; set; } = null!;
         public DbSet<Basket> Baskets { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
-        public DbSet<Dish> Dishes { get; set; } = null!;
+        public DbSet<Vendor> Vendors { get; set; } = null!;
+        public DbSet<Review> Reviews { get; set; } = null!;
+        public DbSet<Vendor> Dishes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
