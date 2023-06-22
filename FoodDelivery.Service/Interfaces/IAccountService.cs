@@ -1,5 +1,4 @@
-﻿using FoodDelivery.Models.Entity;
-using FoodDelivery.Models.ViewModel;
+﻿using FoodDelivery.Models.ViewModel;
 using FoodDelivery.Models.ViewModel.Account;
 using FoodDelivery.Models.ViewModel.User;
 using FoodDelivery.Service.Implementations;

@@ -3,15 +3,10 @@ using FoodDelivery.DAL;
 using FoodDelivery.Models.Entity.DTOs;
 using FoodDelivery.Models.Entity;
 using FoodDelivery.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Repsonse;
-using FoodDelivery.Models.ViewModel.DishViewModel;
+using FoodDelivery.Models.ViewModel.Dish;
 using FoodDelivery.Models.Enum;
 using FoodDelivery.Models.ViewModel.User;
 

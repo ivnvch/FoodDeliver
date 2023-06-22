@@ -1,5 +1,5 @@
-﻿using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.Entity;
+﻿using FoodDelivery.DAL.Entity;
+using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Enum;
 using FoodDelivery.Models.Repsonse;
 using FoodDelivery.Models.ViewModel.Profile;

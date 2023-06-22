@@ -3,10 +3,7 @@ using FoodDelivery.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
-
 
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));

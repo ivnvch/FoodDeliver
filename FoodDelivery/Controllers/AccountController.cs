@@ -1,5 +1,4 @@
 ﻿using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.Entity;
 using FoodDelivery.Models.Helpers;
 using FoodDelivery.Models.ViewModel.Account;
 using FoodDelivery.Models.ViewModel.User;

@@ -1,6 +1,4 @@
-﻿
-
-namespace FoodDelivery.Models.ViewModel
+﻿namespace FoodDelivery.Models.ViewModel
 {
     public class AuthResponseModel
     {

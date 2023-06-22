@@ -1,4 +1,4 @@
-﻿using FoodDelivery.Models.Entity;
+﻿using FoodDelivery.DAL.Entity;
 using FoodDelivery.Models.Helpers;
 using FoodDelivery.Models.ViewModel;
 using FoodDelivery.Service.Interfaces;

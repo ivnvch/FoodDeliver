@@ -2,7 +2,7 @@
 
 namespace FoodDelivery.Controllers
 {
-    public class ReviewsController : Controller
+    public class VendorController : Controller
     {
     }
 }

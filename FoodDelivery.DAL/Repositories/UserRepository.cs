@@ -9,7 +9,6 @@ namespace FoodDelivery.DAL.Repositories
             : base(context)
         {
 
-        }
-        
+        }        
     }
 }

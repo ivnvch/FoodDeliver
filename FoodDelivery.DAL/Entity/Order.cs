@@ -16,5 +16,6 @@ namespace FoodDelivery.DAL.Entity
         public bool IsComplete { get; set; } = false;
         public string Address { get; set; } = string.Empty;
         public string? Commentary { get; set; } = string.Empty; 
+
     }
 }

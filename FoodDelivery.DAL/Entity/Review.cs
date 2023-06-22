@@ -16,5 +16,6 @@ namespace FoodDelivery.DAL.Entity
         public Vendor? Vendor { get; set; }
         public double CustomerRating { get; set; } 
         public string? Description { get; set; } = string.Empty;
+
     }
 }
