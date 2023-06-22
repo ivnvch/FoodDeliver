@@ -3,7 +3,7 @@ using FoodDelivery.Models.ViewModel.DTOs;
 
 namespace FoodDelivery.Service.Interfaces
 {
-    public interface IReviewControllers:Controller
+    public interface IReviewService
     {
         Task<IEnumerable<Order>> GetListAsync();
         Task<Order> GetByIdAsync(int id);
