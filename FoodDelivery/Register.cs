@@ -25,7 +25,7 @@ namespace FoodDelivery
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITokenService, TokenSerivce>();
             services.AddTransient<IAccountService, AccountService>();
-
+            services.AddTransient<IDishService, DishService>();
         }
     }
 }

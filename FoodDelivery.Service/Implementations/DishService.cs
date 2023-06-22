@@ -1,6 +1,6 @@
 ﻿using FoodDelivery.DAL.Repositories;
 using FoodDelivery.DAL;
-using FoodDelivery.Models.Entity.DTOs;
+
 using FoodDelivery.Models.Entity;
 using FoodDelivery.Service.Interfaces;
 using System;
@@ -14,18 +14,19 @@ using FoodDelivery.Models.Repsonse;
 using FoodDelivery.Models.ViewModel.DishViewModel;
 using FoodDelivery.Models.Enum;
 using FoodDelivery.Models.ViewModel.User;
+using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.Entity.DTO;
 
 namespace FoodDelivery.Service.Implementations
 {
     public class DishService : IDishService
     {
+      
+        private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IBaseRepository<Dish> _dishRepo;
-
-        public DishService(DataContext context, DishRepository dishRepo)
-        {
-
-            this._dishRepo = dishRepo;
+        public DishService(IUnitOfWork unitOfWork)
+        {            
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -34,19 +35,18 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                var dishes = await _dishRepo.GetAllAsync().
-                Select(x => new DishViewModel()
+                var dishs = await _unitOfWork.DishRepository.GetAllAsync(); 
+                List<DishViewModel> dishsView = await dishs.Select(x => new DishViewModel
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
                     Price = x.Price,
                     Weight = x.Weight,
-
                 }).ToListAsync();
                 return new BaseResponse<IEnumerable<DishViewModel>>()
                 {
-                    Data = dishes,
+                    Data = dishsView,
                     StatusCode = StatusCode.OK,
                 };
             }
@@ -64,7 +64,7 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                var dish = await _dishRepo.GetAllAsync().FirstOrDefaultAsync(x => x.Name == model.Name);
+                Dish dish = (Dish)await _unitOfWork.DishRepository.FindByConditionAsync(x => x.Name == model.Name);
 
                 if (dish != null)
                 {
@@ -84,7 +84,8 @@ namespace FoodDelivery.Service.Implementations
                     Category = model.Category,
                 };
 
-                await _dishRepo.CreateAsync(dish);
+                await _unitOfWork.DishRepository.CreateAsync(dish);
+                await _unitOfWork.SaveAsync();
                 return new BaseResponse<Dish>()
                 {
                     Data = dish,
@@ -107,13 +108,15 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                var dish = await _dishRepo.GetAllAsync().FirstOrDefaultAsync(x => x.Id == model.Id);
+                Dish dish = (Dish)await _unitOfWork.DishRepository.FindByConditionAsync(x => x.Id == model.Id);
                 dish.Name = model.Name;
                 dish.Description = model.Description;
                 dish.Price = model.Price;
                 dish.Weight = model.Weight;
                 dish.Category = model.Category;
-                 await _dishRepo.UpdateAsync(dish);
+
+                await _unitOfWork.DishRepository.UpdateAsync(dish);
+                await _unitOfWork.SaveAsync();
                 return new BaseResponse<bool>()
                 {
                     Data = true,
@@ -130,9 +133,10 @@ namespace FoodDelivery.Service.Implementations
 
 
         public async Task<IBaseResponse<bool>> Delete(int id)
-        {
-            var dish = await _dishRepo.GetAllAsync().FirstOrDefaultAsync(x => x.Id == id);
-            await _dishRepo.DeleteAsync(dish);
+        {           
+            Dish dish = (Dish)await _unitOfWork.DishRepository.FindByConditionAsync(x => x.Id == id);
+            await _unitOfWork.DishRepository.DeleteAsync(dish);
+            await _unitOfWork.SaveAsync();
             return new BaseResponse<bool>()
             {
                 Data = true,
