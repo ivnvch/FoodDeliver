@@ -8,8 +8,8 @@ namespace FoodDelivery.DAL.Entity
         [Key]
         public int Id { get; set; }
         public DateTime DateCreate { get; set; }
-        [ForeignKey("DishId")]
-        public int DishId { get; set; }
+        public decimal Price { get; set; }
+        public List<Dish> Dishes { get; set; } = new List<Dish> {};
         [ForeignKey("BasketId")]
         public int BasketId { get; set; }
         public Basket Basket { get; set; }
