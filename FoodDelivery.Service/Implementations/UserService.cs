@@ -17,62 +17,6 @@ namespace FoodDelivery.Service.Implementations
             _unitOfWork = unitOfWork;
         }
 
-
-        public async Task<IBaseResponse<User>> CreateUser(UserViewModel viewModel)
-        {
-            try
-            {
-                User user = (User) await _unitOfWork.UserRepository.FindByConditionAsync(x => x.Login == viewModel.Login);
-
-                if (user != null)
-                {
-                    return new BaseResponse<User>()
-                    {
-                        Description = "Пользователь с таким логином уже существует!",
-                        StatusCode = Models.Enum.StatusCode.UserAlreadyExist,
-                    };
-                }
-
-                user = new User()
-                {
-                    Login = viewModel.Login,
-                    //Password = viewModel.Password,//нужно захешировать пароль
-                };
-
-                await _unitOfWork.UserRepository.CreateAsync(user);
-                await _unitOfWork.SaveAsync();
-
-                var profile = new Profile()
-                {
-                    LastName = string.Empty,
-                    FirstName = string.Empty,
-                    MiddleName = string.Empty,
-                    PhoneNumber = string.Empty,
-                    DateCreated = DateTime.Now,
-                    UserId = user.Id,
-                };
-
-                await _unitOfWork.ProfileRepository.CreateAsync(profile);
-                await _unitOfWork.SaveAsync();
-
-                return new BaseResponse<User>()
-                {
-                    Data = user,
-                    Description = "Аккаунт создан",
-                    StatusCode = StatusCode.OK,
-                };
-
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponse<User>()
-                {
-                    StatusCode = StatusCode.InternalServerError,
-                    Description = $"Внутреняя ошибка {ex.Message}"
-                };
-            }
-        }
-
         public async Task<IBaseResponse<bool>> DeleteUser(int id)
         {
             try
@@ -122,33 +66,35 @@ namespace FoodDelivery.Service.Implementations
         }
 
 
-        //public async Task<IBaseResponse<IEnumerable<UserViewModel>>> GetUsers()
-        //{
-        //    try
-        //    {
-        //        var users = await _unitOfWork.UserRepository.GetAllAsync().
-        //            Select(x => new UserViewModel()
-        //            {
-        //                Id = x.Id,
-        //                Login = x.Login,
+        public async Task<IBaseResponse<IEnumerable<UserViewModel>>> GetUsers()
+        {
+            try
+            {
+                 var users = await _unitOfWork.UserRepository.GetAllAsync();
 
-        //            }).ToListAsync();
+                List<UserViewModel> usersModel = new List<UserViewModel>();
 
-        //        return new BaseResponse<IEnumerable<UserViewModel>>()
-        //        {
-        //            Data = users,
-        //            StatusCode = StatusCode.OK,
-        //        };
+                usersModel = await users.Select(x => new UserViewModel()
+                {
+                    Id = x.Id,
+                    Login = x.Login,
+                    Role = x.Role.ToString(),//переделать
+                }).ToListAsync();
+                return new BaseResponse<IEnumerable<UserViewModel>>()
+                {
+                    Data = usersModel,
+                    StatusCode = StatusCode.OK,
+                };
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new BaseResponse<IEnumerable<UserViewModel>>()
-        //        {
-        //            Description = $"Внутренняя ошибка {ex.Message}",
-        //            StatusCode = StatusCode.InternalServerError,
-        //        };
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<UserViewModel>>()
+                {
+                    Description = $"Внутренняя ошибка {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError,
+                };
+            }
+        }
     }
 }
