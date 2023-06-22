@@ -41,7 +41,7 @@ namespace FoodDelivery.DAL.Repositories
 
         public async Task<IQueryable<T>> FindByConditionAsync(Expression<Func<T, bool>> expression)
         {
-            return await  Task.FromResult(_context.Set<T>().Where(expression).AsNoTracking());
+            return await Task.FromResult(_context.Set<T>().Where(expression).AsNoTracking());
         }
     }
 }
