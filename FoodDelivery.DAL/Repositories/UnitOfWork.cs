@@ -11,6 +11,11 @@ namespace FoodDelivery.DAL.Repositories
         private IProfileRepository _profileRepository;
         private IUserRepository _userRepository;
 
+
+        public UnitOfWork(DataContext context)
+        {
+            _context = context;
+        }
         public IBasketRepository BasketRepository
         {
             get

@@ -1,4 +1,4 @@
-﻿using FoodDelivery.Models.Entity;
+﻿using FoodDelivery.DAL.Entity;
 using FoodDelivery.Models.Helpers;
 using FoodDelivery.Models.ViewModel;
 using FoodDelivery.Service.Interfaces;
@@ -32,7 +32,7 @@ namespace FoodDelivery.Service.Implementations
             JwtSecurityToken token = GenerateToken(identity);
             string encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-            JwtSecurityToken refreshToken = GenerateToken(identity, isRefresh: true);
+            JwtSecurityToken refreshToken = GenerateToken(identity);
             string encodedRefreshToken = new JwtSecurityTokenHandler().WriteToken(refreshToken);
 
             AuthResponseModel authResponse = new AuthResponseModel
@@ -99,22 +99,12 @@ namespace FoodDelivery.Service.Implementations
             return claimsIdentity;
         }
 
-        private JwtSecurityToken GenerateToken(ClaimsIdentity identity, bool isRefresh = false)
+        private JwtSecurityToken GenerateToken(ClaimsIdentity identity)
         {
             DateTime now = DateTime.UtcNow;
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:TokenKey"]));
             SigningCredentials signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            //DateTime expiresAt = default;
-            //if (isRefresh)
-            //{
-            //    expiresAt = now.AddMinutes(_jwtTokenOptions.Value.RefreshTokenExpiryMinutes);
-            //}
-            //else
-            //{
-            //    expiresAt = now.AddMinutes(_jwtTokenOptions.Value.AccessTokenExpiryMinutes);
-            //}
 
             JwtSecurityToken token = new JwtSecurityToken(
                  _configuration["Jwt:Issuer"],
@@ -127,31 +117,6 @@ namespace FoodDelivery.Service.Implementations
             return token;
         }
 
-
-        //public string CreateToken(User user)
-        //{
-        //    var claims = new List<Claim>
-        //    {
-        //        new Claim(JwtRegisteredClaimNames.NameId,user.Login),
-        //        new Claim("UserLogin", user.Login)
-        //    };
-
-        //    var tokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        Issuer = _configuration["Jwt:Issuer"],
-        //        Audience = _configuration["Jwt:Audience"],
-        //        Subject = new ClaimsIdentity(claims),
-        //        Expires = DateTime.UtcNow.AddMinutes(int.Parse(_configuration["Jwt:TokenLifetimeMinutes"])),
-        //        SigningCredentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature),
-        //    };
-
-
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-
-        //    var token = tokenHandler.CreateToken(tokenDescriptor);
-
-        //    return tokenHandler.WriteToken(token);
-        //}
     }
 
     public class RefreshTokenModel

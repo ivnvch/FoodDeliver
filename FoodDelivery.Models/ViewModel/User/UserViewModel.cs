@@ -19,5 +19,6 @@ namespace FoodDelivery.Models.ViewModel.User
         [Required(ErrorMessage = "Укажите пароль")]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+        public string Role { get; set; }
     }
 }

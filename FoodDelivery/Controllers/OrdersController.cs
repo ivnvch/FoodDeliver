@@ -16,7 +16,7 @@ namespace FoodDelivery.Controllers
         {
             _orderService = orderService;
         }
-        //[Authorize]
+        [Authorize]
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {
@@ -32,13 +32,13 @@ namespace FoodDelivery.Controllers
                 return BadRequest("error when getting an order list:" + ex.Message);
             }
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost("Create")]
         public async Task<IActionResult> Post(OrderDto orderDto)
         {
             return await _orderService.CreateAsync(orderDto) ? Ok("order has been created") : BadRequest("order not created");
         }
-        //[Authorize]
+        [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> Put(OrderDto orderDto)
         {
@@ -47,15 +47,15 @@ namespace FoodDelivery.Controllers
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(orderDto.Id);
 
-               // if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-               // {
+                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                {
                     order.DateCreate = orderDto.DateCreate;
                     order.DishId = orderDto.DishId;
                     order.IsComplete = orderDto.IsComplete;
                     order.BasketId = orderDto.BasketId;
                     return await _orderService.UpdateAsync(order) ? Ok("order has been updated") : BadRequest("order not updated");
-               // }
-               // return Forbid();
+                }
+                return Forbid();
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace FoodDelivery.Controllers
             }
 
         }
-        //[Authorize]
+        [Authorize]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -71,11 +71,11 @@ namespace FoodDelivery.Controllers
             {
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(id);
-               // if (order.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-               // {
+                if (order.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                {
                     return await _orderService.DeleteAsync(id) ? Ok("order has been removed") : BadRequest("order not deleted");
-               // }
-               // return Forbid();
+                }
+                return Forbid();
             }
             catch (Exception ex)
             {

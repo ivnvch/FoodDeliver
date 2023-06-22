@@ -9,7 +9,7 @@ namespace FoodDelivery.Controllers
     [Route("api/[controller]")]
     public class DishController : Controller
     {
-       
+
         private readonly IDishService _dishService;
 
 
@@ -48,7 +48,7 @@ namespace FoodDelivery.Controllers
         {
             if (ModelState.IsValid)
             {
-               var dish = await _dishService.Create(entity);
+                var dish = await _dishService.Create(entity);
                 return RedirectToAction("List");
             }
             else
