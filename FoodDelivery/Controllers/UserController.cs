@@ -19,12 +19,15 @@ namespace FoodDelivery.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var response = await _userService.GetUsers();
-            if (response.StatusCode == Models.Enum.StatusCode.OK)
+            if (User.IsInRole("Admin"))
             {
-                return Ok(response);
+                var response = await _userService.GetUsers();
+                if (response.StatusCode == Models.Enum.StatusCode.OK)
+                {
+                    return Ok(response);
+                }
             }
-            return BadRequest();
+            return Unauthorized("Отказано в доступе");
         }
 
         [HttpDelete("{id}")]
@@ -36,20 +39,8 @@ namespace FoodDelivery.Controllers
                 return Ok();
             }
 
-            return BadRequest();
+            return Unauthorized("Отказано в доступе");
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateOwner(UserViewModel userViewModel)
-        //{
-        //    var response = await _userService.CreateUser(userViewModel);
-
-        //    if (response.StatusCode == Models.Enum.StatusCode.OK)
-        //    {
-        //        return Ok();
-        //    }
-        //    return BadRequest();
-        //}
 
     }
 }
