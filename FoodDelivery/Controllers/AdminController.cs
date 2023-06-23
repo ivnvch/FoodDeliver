@@ -7,11 +7,11 @@ namespace FoodDelivery.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    public class UserController : ControllerBase
+    public class AdminController : ControllerBase
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+        public AdminController(IUserService userService)
         {
             _userService = userService;
         }
@@ -19,14 +19,12 @@ namespace FoodDelivery.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            if (User.IsInRole("Admin"))
+            var response = await _userService.GetUsers();
+            if (response.StatusCode == Models.Enum.StatusCode.OK)
             {
-                var response = await _userService.GetUsers();
-                if (response.StatusCode == Models.Enum.StatusCode.OK)
-                {
-                    return Ok(response);
-                }
+                return Ok(response);
             }
+
             return Unauthorized("Отказано в доступе");
         }
 
