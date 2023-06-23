@@ -11,6 +11,5 @@ namespace FoodDelivery.Service.Interfaces
         Task<bool> CreateAsync(ReviewDto model);
         Task<bool> UpdateAsync(ReviewDto model);
         Task<bool> DeleteAsync(int id);
-        Task<int> GetNumberReviewsAsync(int vendorId);
     }
 }

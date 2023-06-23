@@ -15,7 +15,7 @@ namespace FoodDelivery.Controllers
         {
             _reviewService = reviewService;
         }
-        [Authorize]
+
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {

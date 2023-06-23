@@ -1,4 +1,5 @@
-﻿using FoodDelivery.Models.ViewModel.Vendor;
+﻿using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.ViewModel.Vendor;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace FoodDelivery.Controllers
         {
             _vendorService = vendorService;
         }
-        [Authorize]
+
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {
@@ -31,6 +32,56 @@ namespace FoodDelivery.Controllers
                 return BadRequest("error when getting an vendor list:" + ex.Message);
             }
         }
+        [HttpGet("GetNumberReviews")]
+        public async Task<IActionResult> GetNumberReviews(int id)
+        {
+            try
+            {
+                return Ok(_vendorService.GetNumberReviewsAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("error getting number of reviews " + ex.Message);
+            }
+        }
+        [HttpGet("GetСustomerRating")]
+        public async Task<IActionResult> GetСustomerRating(int id)
+        {
+            try
+            {
+                var vendors = _vendorService.GetСustomerRatingAsync(id);
+                return Ok(vendors);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("error when getting customer rating " + ex.Message);
+            }
+        }
+        [HttpGet("SortingByDeliveryTime")]
+        public async Task<IActionResult> SortingByDeliveryTime()
+        {
+            try
+            {
+                var vendors = _vendorService.SortingByDeliveryTimeAsync();
+                return Ok(vendors);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("error getting number of reviews " + ex.Message);
+            }
+        }
+        [HttpGet("SortingByRating")]
+        public async Task<IActionResult> SortingByRating()
+        {
+            try
+            {
+                return Ok(_vendorService.SortingByRatingAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("error when getting customer rating " + ex.Message);
+            }
+        }             
         [Authorize]
         [HttpPost("Create")]
         public async Task<IActionResult> Post(VendorDto vendorDto)

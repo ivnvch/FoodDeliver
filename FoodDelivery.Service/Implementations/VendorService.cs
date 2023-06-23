@@ -13,6 +13,21 @@ namespace FoodDelivery.Service.Implementations
         {
             _db = db;
         }
+        public async Task<int> GetNumberReviewsAsync(int id)
+        {
+            try
+            {
+                Vendor vendor = await _db.Vendors.FirstOrDefaultAsync(x => x.Id == id);
+                if (vendor == null)
+                    throw new Exception("no vendor found ");
+                int numberReviews = vendor.Reviews.Count;
+                return numberReviews == 0 ? 0 : numberReviews;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("error while getting number of reviews ", ex);
+            }
+        }
         public async Task<IEnumerable<Vendor>> GetListAsync()
         {
             try

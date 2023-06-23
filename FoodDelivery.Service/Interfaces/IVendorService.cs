@@ -13,5 +13,6 @@ namespace FoodDelivery.Service.Interfaces
         Task<double> GetСustomerRatingAsync(int id);
         Task<IEnumerable<Vendor>> SortingByDeliveryTimeAsync();
         Task<IEnumerable<Vendor>> SortingByRatingAsync();
+        Task<int> GetNumberReviewsAsync(int id);
     }
 }
