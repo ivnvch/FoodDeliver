@@ -49,9 +49,13 @@ namespace FoodDelivery.Controllers
                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
                 {
                     order.DateCreate = orderDto.DateCreate;
-                    order.DishId = orderDto.DishId;
+                    order.Price = orderDto.Price;
                     order.IsComplete = orderDto.IsComplete;
                     order.BasketId = orderDto.BasketId;
+                    order.DishId = orderDto.DishId;
+                    order.Basket = await _orderService.GetBasketAsync(order.BasketId);
+                    order.Address = orderDto.Address;
+                    order.Commentary = orderDto.Commentary;
                     return await _orderService.UpdateAsync(order) ? Ok("order has been updated") : BadRequest("order not updated");
                 }
                 return Forbid();
