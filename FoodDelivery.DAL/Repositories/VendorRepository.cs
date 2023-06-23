@@ -3,9 +3,9 @@ using FoodDelivery.DAL.Interfaces;
 
 namespace FoodDelivery.DAL.Repositories
 {
-    public class BasketRepository : BaseRepository<Basket>, IBasketRepository
+    public class VendorRepository : BaseRepository<Vendor>, IVendorRepository
     {
-        public BasketRepository(DataContext context)
+        public VendorRepository(DataContext context)
             : base(context)
         {
 

@@ -1,6 +1,6 @@
 ﻿using FoodDelivery.DAL;
 using FoodDelivery.DAL.Entity;
-using FoodDelivery.Models.DTOs;
+using FoodDelivery.Models.ViewModel.Order;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,10 +45,13 @@ namespace FoodDelivery.Service.Implementations
             {
                 Order order = new Order();
                 order.DateCreate = orderDto.DateCreate;
-                order.DishId = orderDto.DishId;
+                order.Price = orderDto.Price;
                 order.IsComplete = orderDto.IsComplete;
                 order.BasketId = orderDto.BasketId;
-                order.Basket = await GetBasketAsync(orderDto.BasketId);
+                order.DishId = orderDto.DishId;
+                order.Basket = await _db.Baskets.FirstOrDefaultAsync(x => x.Id == order.BasketId);
+                order.Address = orderDto.Address;
+                order.Commentary = orderDto.Commentary;
                 _db.Orders.Add(order);
                 return await SaveAsync();
             }

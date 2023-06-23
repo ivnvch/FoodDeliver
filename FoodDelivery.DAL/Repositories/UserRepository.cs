@@ -1,7 +1,6 @@
 ﻿using FoodDelivery.DAL.Entity;
 using FoodDelivery.DAL.Interfaces;
 
-
 namespace FoodDelivery.DAL.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
@@ -10,7 +9,6 @@ namespace FoodDelivery.DAL.Repositories
             : base(context)
         {
 
-        }
-        
+        }        
     }
 }

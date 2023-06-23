@@ -1,5 +1,4 @@
 ﻿using Azure;
-using FoodDelivery.Models.Entity.DTOs;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

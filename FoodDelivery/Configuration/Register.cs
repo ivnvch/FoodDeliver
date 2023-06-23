@@ -5,7 +5,6 @@ using FoodDelivery.Service.Implementations;
 using FoodDelivery.Service.Interfaces;
 
 namespace FoodDelivery.Configuration
-
 {
     public static class Register
     {
@@ -16,9 +15,10 @@ namespace FoodDelivery.Configuration
             services.AddScoped<IDishRepository, DishRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IVendorRepository, VendorRepository>();
             services.AddScoped<IBaseRepository<User>, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
         }
         public static void RegisterServices(this IServiceCollection services)
         {
@@ -26,7 +26,9 @@ namespace FoodDelivery.Configuration
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITokenService, TokenSerivce>();
             services.AddTransient<IAccountService, AccountService>();
-
+            services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IVendorService, VendorService>();
         }
     }
 }

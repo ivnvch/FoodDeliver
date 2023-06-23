@@ -1,5 +1,4 @@
-﻿using FoodDelivery.DAL.Interfaces;
-using FoodDelivery.Models.DTOs;
+﻿using FoodDelivery.Models.ViewModel.DTOs;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +8,10 @@ namespace FoodDelivery.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OrdersController : Controller
+    public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
-        public OrdersController(IOrderService orderService)
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }
@@ -47,7 +46,7 @@ namespace FoodDelivery.Controllers
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(orderDto.Id);
 
-                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+               if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
                 {
                     order.DateCreate = orderDto.DateCreate;
                     order.DishId = orderDto.DishId;

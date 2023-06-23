@@ -1,6 +1,4 @@
-﻿
-
-namespace FoodDelivery.DAL.Interfaces
+﻿namespace FoodDelivery.DAL.Interfaces
 {
     public interface IUnitOfWork
     {

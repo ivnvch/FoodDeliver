@@ -5,7 +5,6 @@ namespace FoodDelivery.DAL.Repositories
 {
     public class ProfileRepository : BaseRepository<Profile>, IProfileRepository
     {
-
         public ProfileRepository(DataContext context)
             :base(context)
         {

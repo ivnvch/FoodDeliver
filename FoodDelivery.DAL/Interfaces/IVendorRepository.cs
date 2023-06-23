@@ -2,8 +2,7 @@
 
 namespace FoodDelivery.DAL.Interfaces
 {
-    public interface IDishRepository : IBaseRepository<Dish>
+    public interface IVendorRepository : IBaseRepository<Vendor>
     {
-
     }
 }

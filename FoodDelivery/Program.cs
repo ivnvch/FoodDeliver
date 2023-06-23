@@ -1,11 +1,9 @@
+using FoodDelivery;
 using FoodDelivery.Configuration;
 using FoodDelivery.DAL;
 using Microsoft.EntityFrameworkCore;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
-
 
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));

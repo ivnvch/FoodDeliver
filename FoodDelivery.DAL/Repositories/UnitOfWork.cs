@@ -10,7 +10,7 @@ namespace FoodDelivery.DAL.Repositories
         private IOrderRepository _orderRepository;
         private IProfileRepository _profileRepository;
         private IUserRepository _userRepository;
-
+        private IVendorRepository _vendorRepository;
 
         public UnitOfWork(DataContext context)
         {
@@ -28,7 +28,18 @@ namespace FoodDelivery.DAL.Repositories
                 return _basketRepository;
             }
         }
+        public IVendorRepository VendorRepository
+        {
+            get
+            {
+                if (_vendorRepository is null)
+                {
+                    _vendorRepository = new VendorRepository(_context);
+                }
 
+                return _vendorRepository;
+            }
+        }
         public IDishRepository DishRepository
         {
             get

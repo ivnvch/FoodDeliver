@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-
 namespace FoodDelivery.DAL.Configuration
 {
     internal class UserConfiguration: IEntityTypeConfiguration<User>

@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 
-
 namespace FoodDelivery.Models.Helpers
 {
     public class IdentityHelper
