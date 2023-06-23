@@ -7,6 +7,7 @@ namespace FoodDelivery.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class VendorController : ControllerBase
     {
         private readonly IVendorService _vendorService;

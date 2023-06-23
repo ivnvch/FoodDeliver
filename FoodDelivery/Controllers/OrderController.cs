@@ -46,7 +46,7 @@ namespace FoodDelivery.Controllers
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(orderDto.Id);
 
-               if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
                 {
                     order.DateCreate = orderDto.DateCreate;
                     order.Price = orderDto.Price;

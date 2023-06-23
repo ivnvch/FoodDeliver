@@ -40,6 +40,21 @@ namespace FoodDelivery.Service.Implementations
                 throw new Exception("error when getting an review list ", ex);
             }
         }
+        public async Task<User> GetUserByReviewIdAsync(int reviewId)
+        {
+            try
+            {
+                Review review = await GetByIdAsync(reviewId);
+                User user = review.User;
+                if (user == null)
+                    throw new Exception("no user found");
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("user search error ", ex);
+            }
+        }
         public async Task<Review> GetByIdAsync(int id)
         {
             try
