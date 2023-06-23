@@ -7,7 +7,6 @@ namespace FoodDelivery.Service.Interfaces
 {
     public interface ITokenService
     {
-       // string CreateToken(User user);
         AuthResponseModel GetToken(User user);
         Task<AuthResponseModel> Refresh(RefreshTokenModel model);
     }

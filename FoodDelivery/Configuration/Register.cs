@@ -1,10 +1,10 @@
-using FoodDelivery.DAL.Implementations;
+using FoodDelivery.DAL.Entity;
 using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Service.Implementations;
 using FoodDelivery.Service.Interfaces;
 
-namespace FoodDelivery
+namespace FoodDelivery.Configuration
 {
     public static class Register
     {
@@ -17,6 +17,7 @@ namespace FoodDelivery
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IVendorRepository, VendorRepository>();
+            services.AddScoped<IBaseRepository<User>, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
         public static void RegisterServices(this IServiceCollection services)

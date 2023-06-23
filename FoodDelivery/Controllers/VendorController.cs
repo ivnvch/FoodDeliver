@@ -1,5 +1,6 @@
 ﻿using FoodDelivery.Models.ViewModel.Vendor;
 using FoodDelivery.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDelivery.Controllers
@@ -13,7 +14,7 @@ namespace FoodDelivery.Controllers
         {
             _vendorService = vendorService;
         }
-        //[Authorize]
+        [Authorize]
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {
@@ -29,13 +30,13 @@ namespace FoodDelivery.Controllers
                 return BadRequest("error when getting an vendor list:" + ex.Message);
             }
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost("Create")]
         public async Task<IActionResult> Post(VendorDto vendorDto)
         {
             return await _vendorService.CreateAsync(vendorDto) ? Ok("vendor has been created") : BadRequest("vendor not created");
         }
-        //[Authorize]
+        [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> Put(VendorDto vendorDto)
         {
@@ -65,7 +66,7 @@ namespace FoodDelivery.Controllers
             }
 
         }
-        //[Authorize]
+        [Authorize]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {

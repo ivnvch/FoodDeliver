@@ -1,5 +1,5 @@
 ﻿using FoodDelivery.DAL.Entity;
-using FoodDelivery.Models.ViewModel.DTOs;
+using FoodDelivery.Models.ViewModel.Order;
 
 namespace FoodDelivery.Service.Interfaces
 {

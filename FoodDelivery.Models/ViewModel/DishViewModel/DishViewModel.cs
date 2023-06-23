@@ -1,4 +1,4 @@
-﻿namespace FoodDelivery.Models.ViewModel.Dish
+﻿namespace FoodDelivery.Models.ViewModel.DishViewModel
 {
     public class DishViewModel
     {

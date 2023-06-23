@@ -1,5 +1,6 @@
 ﻿using FoodDelivery.Models.ViewModel.Review;
 using FoodDelivery.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDelivery.Controllers
@@ -13,7 +14,7 @@ namespace FoodDelivery.Controllers
         {
             _reviewService = reviewService;
         }
-        //[Authorize]
+        [Authorize]
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {
@@ -29,13 +30,13 @@ namespace FoodDelivery.Controllers
                 return BadRequest("error when getting an review list:" + ex.Message);
             }
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost("Create")]
         public async Task<IActionResult> Post(ReviewDto reviewDto)
         {
             return await _reviewService.CreateAsync(reviewDto) ? Ok("review has been created") : BadRequest("review not created");
         }
-        //[Authorize]
+        [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> Put(ReviewDto reviewDto)
         {
@@ -61,7 +62,7 @@ namespace FoodDelivery.Controllers
             }
 
         }
-        //[Authorize]
+        [Authorize]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {

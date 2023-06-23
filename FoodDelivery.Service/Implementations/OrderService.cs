@@ -1,9 +1,10 @@
-﻿using FoodDelivery.DAL.Entity;
-using FoodDelivery.Models.ViewModel.DTOs;
+﻿using FoodDelivery.DAL;
+using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.ViewModel.Order;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodDelivery.DAL.Implementations
+namespace FoodDelivery.Service.Implementations
 {
     public class OrderService : IOrderService
     {

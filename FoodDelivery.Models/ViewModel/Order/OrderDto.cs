@@ -1,7 +1,4 @@
-﻿using FoodDelivery.Models.ViewModel.Dish;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FoodDelivery.Models.ViewModel.DTOs
+﻿namespace FoodDelivery.Models.ViewModel.Order
 {
     public class OrderDto
     {

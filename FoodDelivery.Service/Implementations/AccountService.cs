@@ -3,38 +3,33 @@ using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Helpers;
 using FoodDelivery.Models.ViewModel;
 using FoodDelivery.Models.ViewModel.Account;
-using FoodDelivery.Models.ViewModel.User;
 using FoodDelivery.Service.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace FoodDelivery.Service.Implementations
 {
     public class AccountService : IAccountService
     {
-        private readonly IBaseRepository<User> _userRepository;
-        private readonly IBaseRepository<Profile> _profileRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ITokenService _tokenService;
 
-        public AccountService(IBaseRepository<User> userRepository, ITokenService tokenService, IBaseRepository<Profile> profileRepository)
+        public AccountService(ITokenService tokenService, IUnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;
             _tokenService = tokenService;
-            _profileRepository = profileRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        [Authorize(Roles = "User")]
         public async Task<AuthResponseModel> Login(LoginViewModel loginViewModel)
         {
-            var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == loginViewModel.Login);
+            var response = await _unitOfWork.UserRepository.FindByConditionAsync(x => x.Login == loginViewModel.Login);
+            User user = await response.FirstOrDefaultAsync();
 
-            if (user == null)
+            if (user is null)
             {
                 throw new Exception("Incorrect login");
             }
 
-            if (!PasswordHashHelpers.VerifyPassword(loginViewModel.Password, user.PasswordHash, user.PasswordSalt))
+            if (!PasswordHasher.VerifyPassword(loginViewModel.Password, user.PasswordHash, user.PasswordSalt))
             {
                 throw new Exception("Incorrect password");
             }
@@ -46,7 +41,7 @@ namespace FoodDelivery.Service.Implementations
 
         public async Task<AuthResponseModel> Register(RegisterViewModel registerViewModel)
         {
-            var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(x => x.Login == registerViewModel.Login);
+            User? user = await _unitOfWork.UserRepository.FindByConditionAsync(x => x.Login == registerViewModel.Login) as User;
 
             if (user != null)
             {
@@ -54,7 +49,7 @@ namespace FoodDelivery.Service.Implementations
             }
 
             byte[] passwordHash, passwordSalt;//?
-            PasswordHashHelpers.CreatePasswordHash(registerViewModel.Password, out passwordHash, out passwordSalt);
+            PasswordHasher.PasswordHash(registerViewModel.Password, out passwordHash, out passwordSalt);
              user = new User
              {
                 Login = registerViewModel.Login,
@@ -63,19 +58,27 @@ namespace FoodDelivery.Service.Implementations
                 Role = Models.Enum.Role.User,
              };
 
-            await _userRepository.CreateAsync(user);
+            await _unitOfWork.UserRepository.CreateAsync(user);
+            await _unitOfWork.SaveAsync();
 
             var profile = new Profile()
             {
-                UserId = user.Id,
-                FirstName = "Diamond",
+                LastName = string.Empty,
+                FirstName = string.Empty,
+                MiddleName = string.Empty,
+                PhoneNumber = string.Empty,
                 DateCreated = DateTime.Now,
-                LastName = "daa",
-                MiddleName = "d ",
-                PhoneNumber = "asd",
+                UserId = user.Id,
             };
+            await _unitOfWork.ProfileRepository.CreateAsync(profile);
 
-            await _profileRepository.CreateAsync(profile);
+            Basket basket = new Basket()
+            {
+                UserId = user.Id,
+            };
+            await _unitOfWork.BasketRepository.CreateAsync(basket);
+
+            await _unitOfWork.SaveAsync();
 
 
             return _tokenService.GetToken(user);
