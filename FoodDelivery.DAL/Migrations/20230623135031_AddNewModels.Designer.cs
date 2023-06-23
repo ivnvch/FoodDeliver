@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230623134323_AddNewModels")]
+    [Migration("20230623135031_AddNewModels")]
     partial class AddNewModels
     {
         /// <inheritdoc />
