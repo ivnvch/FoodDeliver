@@ -29,6 +29,7 @@ namespace FoodDelivery.Configuration
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IVendorService, VendorService>();
+            services.AddTransient<IDishService, DishService>();
         }
     }
 }

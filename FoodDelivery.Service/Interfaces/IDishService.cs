@@ -1,4 +1,5 @@
 ﻿using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.Entity.DTO;
 using FoodDelivery.Models.Repsonse;
 using FoodDelivery.Models.ViewModel.DishViewModel;
 
