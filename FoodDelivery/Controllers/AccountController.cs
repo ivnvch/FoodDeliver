@@ -32,7 +32,7 @@ namespace FoodDelivery.Controllers
                     return Ok(userRegister);
                 }
 
-                return BadRequest("Invalid Data");
+                return Unauthorized("Не все поля формы были заполнены.");
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace FoodDelivery.Controllers
                 return Ok(loginUser);
             }
 
-            return BadRequest("Invalid Data");
+            return Unauthorized("Проверьте правильность введённых данных.");
         }
     }
 }

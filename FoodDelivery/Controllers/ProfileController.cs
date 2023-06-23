@@ -3,6 +3,7 @@ using FoodDelivery.Models.ViewModel.Profile;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FoodDelivery.Controllers
 {
@@ -23,6 +24,7 @@ namespace FoodDelivery.Controllers
         {
 
             string login = IdentityHelper.GetLogin(User);
+            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
             var profile = await _profileService.GetProfile(login);
 
             if (profile.StatusCode == Models.Enum.StatusCode.OK)

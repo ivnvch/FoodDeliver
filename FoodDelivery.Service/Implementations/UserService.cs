@@ -79,6 +79,7 @@ namespace FoodDelivery.Service.Implementations
                     Id = x.Id,
                     Login = x.Login,
                     Role = x.Role.ToString(),//переделать
+                    Password = x.PasswordHash.ToString()
                 }).ToListAsync();
                 return new BaseResponse<IEnumerable<UserViewModel>>()
                 {

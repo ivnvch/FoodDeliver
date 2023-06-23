@@ -1,4 +1,4 @@
-﻿using FoodDelivery.Service.Interfaces;
+using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using FoodDelivery.DAL.Interfaces;
 using FoodDelivery.Models.Repsonse;
