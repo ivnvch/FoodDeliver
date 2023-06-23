@@ -44,17 +44,9 @@ namespace FoodDelivery.Controllers
             try
             {
                 var currentUser = HttpContext.User;
-                var review = await _reviewService.GetByIdAsync(reviewDto.Id);
                 int userId = _reviewService.GetUserByReviewIdAsync(reviewDto.Id).Id;
                 if (userId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                {
-
-                    review.CreationDate = reviewDto.CreationDate;
-                    review.UserId = reviewDto.UserId;
-                    review.CustomerRating = reviewDto.CustomerRating;
-                    review.Description = reviewDto.Description;
-                    return await _reviewService.UpdateAsync(review) ? Ok("review has been updated") : BadRequest("review not updated");
-                }
+                    return await _reviewService.UpdateAsync(reviewDto) ? Ok("review has been updated") : BadRequest("review not updated");
                 return Forbid();
             }
             catch (Exception ex)
@@ -72,9 +64,7 @@ namespace FoodDelivery.Controllers
                 var review = await _reviewService.GetByIdAsync(id);
                 int userId = _reviewService.GetUserByReviewIdAsync(id).Id;
                 if (userId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                {
                     return await _reviewService.DeleteAsync(id) ? Ok("review has been removed") : BadRequest("review not deleted");
-                }
                 return Forbid();
             }
             catch (Exception ex)

@@ -62,9 +62,8 @@ namespace FoodDelivery.Controllers
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(id);
                 if (order.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                {
                     return await _orderService.DeleteAsync(id) ? Ok("order has been removed") : BadRequest("order not deleted");
-                }
+
                 return Forbid();
             }
             catch (Exception ex)

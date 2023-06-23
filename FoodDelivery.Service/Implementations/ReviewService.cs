@@ -86,10 +86,17 @@ namespace FoodDelivery.Service.Implementations
                 throw new Exception("error when creating an review ", ex);
             }
         }
-        public async Task<bool> UpdateAsync(Review review)
+        public async Task<bool> UpdateAsync(ReviewDto reviewDto)
         {
             try
             {
+                var review = await GetByIdAsync(reviewDto.Id);
+
+                review.CreationDate = reviewDto.CreationDate;
+                review.UserId = reviewDto.UserId;
+                review.CustomerRating = reviewDto.CustomerRating;
+                review.Description = reviewDto.Description;
+
                 _db.Update(review);
                 return await SaveAsync();
             }

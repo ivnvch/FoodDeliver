@@ -9,7 +9,7 @@ namespace FoodDelivery.Service.Interfaces
         Task<Review> GetByIdAsync(int id);
         Task<User> GetUserByReviewIdAsync(int reviewId);
         Task<bool> CreateAsync(ReviewDto model);
-        Task<bool> UpdateAsync(Review model);
+        Task<bool> UpdateAsync(ReviewDto model);
         Task<bool> DeleteAsync(int id);
         Task<int> GetNumberReviewsAsync(int vendorId);
     }
