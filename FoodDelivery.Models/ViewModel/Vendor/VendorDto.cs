@@ -1,4 +1,4 @@
-﻿namespace FoodDelivery.Models.ViewModel.DTOs
+﻿namespace FoodDelivery.Models.ViewModel.Vendor
 {
     public class VendorDto
     {
