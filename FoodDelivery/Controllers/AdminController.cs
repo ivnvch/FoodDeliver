@@ -7,11 +7,11 @@ namespace FoodDelivery.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    public class UserController : ControllerBase
+    public class AdminController : ControllerBase
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+        public AdminController(IUserService userService)
         {
             _userService = userService;
         }
@@ -24,7 +24,8 @@ namespace FoodDelivery.Controllers
             {
                 return Ok(response);
             }
-            return BadRequest();
+
+            return Unauthorized("Отказано в доступе");
         }
 
         [HttpDelete("{id}")]
@@ -36,20 +37,8 @@ namespace FoodDelivery.Controllers
                 return Ok();
             }
 
-            return BadRequest();
+            return Unauthorized("Отказано в доступе");
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateOwner(UserViewModel userViewModel)
-        //{
-        //    var response = await _userService.CreateUser(userViewModel);
-
-        //    if (response.StatusCode == Models.Enum.StatusCode.OK)
-        //    {
-        //        return Ok();
-        //    }
-        //    return BadRequest();
-        //}
 
     }
 }

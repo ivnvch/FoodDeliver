@@ -89,7 +89,7 @@ namespace FoodDelivery.Service.Implementations
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                 new Claim("UserLogin",user.Login),
                 //new Claim("UserToken",user.Token.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType,user.Role.ToString())
+                new Claim(ClaimsIdentity.DefaultRoleClaimType,user.Role.ToString()),
             };
 
             ClaimsIdentity claimsIdentity =
