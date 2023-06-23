@@ -99,11 +99,20 @@ namespace FoodDelivery.Service.Implementations
                 throw new Exception("error when creating an vendor ", ex);
             }
         }
-        public async Task<bool> UpdateAsync(Vendor vendor)
+        public async Task<bool> UpdateAsync(VendorDto vendorDto)
         {
             try
             {
-                _db.Update(vendor);
+                var vendor = await GetByIdAsync(vendorDto.Id);
+                vendor.Type = vendorDto.Type;
+                vendor.Name = vendorDto.Name;
+                vendor.PhoneNumber = vendorDto.PhoneNumber;
+                vendor.Address = vendorDto.Address;
+                vendor.OpeningTime = vendorDto.OpeningTime;
+                vendor.ClosingTime = vendorDto.ClosingTime;
+                vendor.TimeOfDelivery = vendorDto.TimeOfDelivery;
+                vendor.Description = vendorDto.Description;
+                _db.Update(vendorDto);
                 return await SaveAsync();
             }
             catch (Exception ex)

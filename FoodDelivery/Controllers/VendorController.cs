@@ -44,20 +44,9 @@ namespace FoodDelivery.Controllers
             try
             {
                 var currentUser = HttpContext.User;
-                var vendor = await _vendorService.GetByIdAsync(vendorDto.Id);
-
                 // if (_vendorService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                // {
-
-                vendor.Type = vendorDto.Type;
-                vendor.Name = vendorDto.Name;
-                vendor.PhoneNumber = vendorDto.PhoneNumber;
-                vendor.Address = vendorDto.Address;
-                vendor.OpeningTime = vendorDto.OpeningTime;
-                vendor.ClosingTime = vendorDto.ClosingTime;
-                vendor.TimeOfDelivery = vendorDto.TimeOfDelivery;
-                vendor.Description = vendorDto.Description;
-                return await _vendorService.UpdateAsync(vendor) ? Ok("vendor has been updated") : BadRequest("vendor not updated");
+                // {                
+                return await _vendorService.UpdateAsync(vendorDto) ? Ok("vendor has been updated") : BadRequest("vendor not updated");
                 // }
                 // return Forbid();
             }
@@ -65,7 +54,6 @@ namespace FoodDelivery.Controllers
             {
                 return BadRequest("error when changing an vendor " + ex.Message);
             }
-
         }
         [Authorize]
         [HttpDelete("Delete/{id}")]
@@ -76,9 +64,7 @@ namespace FoodDelivery.Controllers
                 var currentUser = HttpContext.User;
                 var vendor = await _vendorService.GetByIdAsync(id);
                 // if (vendor.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                // {
                 return await _vendorService.DeleteAsync(id) ? Ok("vendor has been removed") : BadRequest("vendor not deleted");
-                // }
                 // return Forbid();
             }
             catch (Exception ex)
