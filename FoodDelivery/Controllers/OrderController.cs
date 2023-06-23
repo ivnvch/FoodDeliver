@@ -1,4 +1,4 @@
-﻿using FoodDelivery.Models.ViewModel.DTOs;
+﻿using FoodDelivery.Models.ViewModel.Order;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
