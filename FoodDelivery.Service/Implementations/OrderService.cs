@@ -3,6 +3,8 @@ using FoodDelivery.DAL.Entity;
 using FoodDelivery.Models.ViewModel.Order;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
+using System.Security.Claims;
 
 namespace FoodDelivery.Service.Implementations
 {
@@ -60,10 +62,19 @@ namespace FoodDelivery.Service.Implementations
                 throw new Exception("error when creating an order ", ex);
             }
         }
-        public async Task<bool> UpdateAsync(Order order)
+        public async Task<bool> UpdateAsync(OrderDto orderDto)
         {
             try
             {
+                var order = await GetByIdAsync(orderDto.Id);
+                order.DateCreate = orderDto.DateCreate;
+                order.Price = orderDto.Price;
+                order.IsComplete = orderDto.IsComplete;
+                order.BasketId = orderDto.BasketId;
+                order.DishId = orderDto.DishId;
+                order.Basket = await GetBasketAsync(order.BasketId);
+                order.Address = orderDto.Address;
+                order.Commentary = orderDto.Commentary;
                 _db.Update(order);
                 return await SaveAsync();
             }

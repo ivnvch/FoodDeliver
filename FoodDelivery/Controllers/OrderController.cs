@@ -44,27 +44,14 @@ namespace FoodDelivery.Controllers
             try
             {
                 var currentUser = HttpContext.User;
-                var order = await _orderService.GetByIdAsync(orderDto.Id);
-
                 if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                {
-                    order.DateCreate = orderDto.DateCreate;
-                    order.Price = orderDto.Price;
-                    order.IsComplete = orderDto.IsComplete;
-                    order.BasketId = orderDto.BasketId;
-                    order.DishId = orderDto.DishId;
-                    order.Basket = await _orderService.GetBasketAsync(order.BasketId);
-                    order.Address = orderDto.Address;
-                    order.Commentary = orderDto.Commentary;
-                    return await _orderService.UpdateAsync(order) ? Ok("order has been updated") : BadRequest("order not updated");
-                }
+                    return await _orderService.UpdateAsync(orderDto) ? Ok("order has been updated") : BadRequest("order not updated");
                 return Forbid();
             }
             catch (Exception ex)
             {
                 return BadRequest("error when changing an order " + ex.Message);
             }
-
         }
         [Authorize]
         [HttpDelete("Delete/{id}")]
