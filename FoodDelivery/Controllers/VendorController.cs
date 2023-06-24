@@ -1,4 +1,5 @@
-﻿using FoodDelivery.Models.ViewModel.Vendor;
+﻿using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.ViewModel.Vendor;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ namespace FoodDelivery.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class VendorController : ControllerBase
     {
         private readonly IVendorService _vendorService;
@@ -14,7 +16,7 @@ namespace FoodDelivery.Controllers
         {
             _vendorService = vendorService;
         }
-        [Authorize]
+
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {
@@ -30,6 +32,56 @@ namespace FoodDelivery.Controllers
                 return BadRequest("error when getting an vendor list:" + ex.Message);
             }
         }
+        [HttpGet("GetNumberReviews")]
+        public async Task<IActionResult> GetNumberReviews(int id)
+        {
+            try
+            {
+                return Ok(_vendorService.GetNumberReviewsAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("error getting number of reviews " + ex.Message);
+            }
+        }
+        [HttpGet("GetСustomerRating")]
+        public async Task<IActionResult> GetСustomerRating(int id)
+        {
+            try
+            {
+                var vendors = _vendorService.GetСustomerRatingAsync(id);
+                return Ok(vendors);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("error when getting customer rating " + ex.Message);
+            }
+        }
+        [HttpGet("SortingByDeliveryTime")]
+        public async Task<IActionResult> SortingByDeliveryTime()
+        {
+            try
+            {
+                var vendors = _vendorService.SortingByDeliveryTimeAsync();
+                return Ok(vendors);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("error getting number of reviews " + ex.Message);
+            }
+        }
+        [HttpGet("SortingByRating")]
+        public async Task<IActionResult> SortingByRating()
+        {
+            try
+            {
+                return Ok(_vendorService.SortingByRatingAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("error when getting customer rating " + ex.Message);
+            }
+        }             
         [Authorize]
         [HttpPost("Create")]
         public async Task<IActionResult> Post(VendorDto vendorDto)
@@ -43,20 +95,9 @@ namespace FoodDelivery.Controllers
             try
             {
                 var currentUser = HttpContext.User;
-                var vendor = await _vendorService.GetByIdAsync(vendorDto.Id);
-
                 // if (_vendorService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                // {
-
-                vendor.Type = vendorDto.Type;
-                vendor.Name = vendorDto.Name;
-                vendor.PhoneNumber = vendorDto.PhoneNumber;
-                vendor.Address = vendorDto.Address;
-                vendor.OpeningTime = vendorDto.OpeningTime;
-                vendor.ClosingTime = vendorDto.ClosingTime;
-                vendor.TimeOfDelivery = vendorDto.TimeOfDelivery;
-                vendor.Description = vendorDto.Description;
-                return await _vendorService.UpdateAsync(vendor) ? Ok("vendor has been updated") : BadRequest("vendor not updated");
+                // {                
+                return await _vendorService.UpdateAsync(vendorDto) ? Ok("vendor has been updated") : BadRequest("vendor not updated");
                 // }
                 // return Forbid();
             }
@@ -64,7 +105,6 @@ namespace FoodDelivery.Controllers
             {
                 return BadRequest("error when changing an vendor " + ex.Message);
             }
-
         }
         [Authorize]
         [HttpDelete("Delete/{id}")]
@@ -75,9 +115,7 @@ namespace FoodDelivery.Controllers
                 var currentUser = HttpContext.User;
                 var vendor = await _vendorService.GetByIdAsync(id);
                 // if (vendor.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                // {
                 return await _vendorService.DeleteAsync(id) ? Ok("vendor has been removed") : BadRequest("vendor not deleted");
-                // }
                 // return Forbid();
             }
             catch (Exception ex)

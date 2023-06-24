@@ -44,23 +44,14 @@ namespace FoodDelivery.Controllers
             try
             {
                 var currentUser = HttpContext.User;
-                var order = await _orderService.GetByIdAsync(orderDto.Id);
-
-               if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                {
-                    order.DateCreate = orderDto.DateCreate;
-                    order.DishId = orderDto.DishId;
-                    order.IsComplete = orderDto.IsComplete;
-                    order.BasketId = orderDto.BasketId;
-                    return await _orderService.UpdateAsync(order) ? Ok("order has been updated") : BadRequest("order not updated");
-                }
+                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                    return await _orderService.UpdateAsync(orderDto) ? Ok("order has been updated") : BadRequest("order not updated");
                 return Forbid();
             }
             catch (Exception ex)
             {
                 return BadRequest("error when changing an order " + ex.Message);
             }
-
         }
         [Authorize]
         [HttpDelete("Delete/{id}")]
@@ -71,9 +62,8 @@ namespace FoodDelivery.Controllers
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(id);
                 if (order.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                {
                     return await _orderService.DeleteAsync(id) ? Ok("order has been removed") : BadRequest("order not deleted");
-                }
+
                 return Forbid();
             }
             catch (Exception ex)

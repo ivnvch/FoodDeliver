@@ -13,21 +13,6 @@ namespace FoodDelivery.Service.Implementations
         {
             _db = db;
         }
-        public async Task<int> GetNumberReviewsAsync(int vendorId)
-        {
-            try
-            {
-                Vendor vendor = await _db.Vendors.FirstOrDefaultAsync(x => x.Id == vendorId);
-                if (vendor == null)
-                    throw new Exception("no vendor found ");
-                int numberReviews = vendor.Reviews.Count;
-                return numberReviews == 0 ? 0 : numberReviews;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("error while getting number of reviews ", ex);
-            }
-        }
         public async Task<IEnumerable<Review>> GetListAsync()
         {
             try
@@ -38,6 +23,21 @@ namespace FoodDelivery.Service.Implementations
             catch (Exception ex)
             {
                 throw new Exception("error when getting an review list ", ex);
+            }
+        }
+        public async Task<User> GetUserByReviewIdAsync(int reviewId)
+        {
+            try
+            {
+                Review review = await GetByIdAsync(reviewId);
+                User user = review.User;
+                if (user == null)
+                    throw new Exception("no user found");
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("user search error ", ex);
             }
         }
         public async Task<Review> GetByIdAsync(int id)
@@ -61,6 +61,7 @@ namespace FoodDelivery.Service.Implementations
                 Review review = new Review();
                 review.CreationDate = reviewDto.CreationDate;
                 review.UserId = reviewDto.UserId;
+                review.VendorId = reviewDto.VendorId;
                 review.CustomerRating = reviewDto.CustomerRating;
                 review.Description = reviewDto.Description;
                 _db.Reviews.Add(review);
@@ -71,10 +72,18 @@ namespace FoodDelivery.Service.Implementations
                 throw new Exception("error when creating an review ", ex);
             }
         }
-        public async Task<bool> UpdateAsync(Review review)
+        public async Task<bool> UpdateAsync(ReviewDto reviewDto)
         {
             try
             {
+                var review = await GetByIdAsync(reviewDto.Id);
+
+                review.CreationDate = reviewDto.CreationDate;
+                review.UserId = reviewDto.UserId;
+                review.VendorId = reviewDto.VendorId;
+                review.CustomerRating = reviewDto.CustomerRating;
+                review.Description = reviewDto.Description;
+
                 _db.Update(review);
                 return await SaveAsync();
             }
