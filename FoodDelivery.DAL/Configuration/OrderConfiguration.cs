@@ -20,7 +20,7 @@ namespace FoodDelivery.DAL.Configuration
             .WithMany(b => b.Orders)
             .HasForeignKey(o => o.BasketId);
             builder.Property(x => x.DateCreate)
-                .HasConversion(x => x.ToString("f"), x => DateTime.ParseExact(x, "f", null));
+                .HasConversion(x => x.ToString("G"), x => DateTime.ParseExact(x, "G", null));
         }
     }
 }

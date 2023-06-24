@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using FoodDelivery.DAL.Entity;
-using System.Data;
 
 namespace FoodDelivery.Service.Validators.AddValidator
 {

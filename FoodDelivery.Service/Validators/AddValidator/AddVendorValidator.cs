@@ -13,15 +13,15 @@ namespace FoodDelivery.Service.Validators.AddValidator
                 .NotEmpty().WithMessage("data is empty")
                 .Must(IsValidTime).WithMessage("invalid date");
             RuleFor(v => v.ClosingTime)
-               .Cascade(CascadeMode.StopOnFirstFailure)
-               .NotNull()
-               .NotEmpty().WithMessage("data is empty")
-               .Must(IsValidTime).WithMessage("invalid date");
+                .Cascade(CascadeMode.StopOnFirstFailure) 
+                .NotNull()
+                .NotEmpty().WithMessage("data is empty")
+                .Must(IsValidTime).WithMessage("invalid date");
             RuleFor(v => v.TimeOfDelivery)
-               .Cascade(CascadeMode.StopOnFirstFailure)
-               .NotNull()
-               .NotEmpty().WithMessage("data is empty")
-               .Must(IsValidTime).WithMessage("invalid date");
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotNull()
+                .NotEmpty().WithMessage("data is empty")
+                .Must(IsValidTime).WithMessage("invalid date");
             RuleFor(v => v.Type)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotNull()
@@ -37,10 +37,10 @@ namespace FoodDelivery.Service.Validators.AddValidator
             RuleFor(v => v.Description)
                 .MaximumLength(200).WithMessage("maximum description length must be up to 200");
             RuleFor(v => v.Address)
-               .Cascade(CascadeMode.StopOnFirstFailure)
-               .NotNull()
-               .NotEmpty().WithMessage("address is empty")
-               .Length(10, 100).WithMessage("length of name invalid");
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotNull()
+                .NotEmpty().WithMessage("address is empty")
+                .Length(10, 100).WithMessage("length of address invalid");
             RuleFor(v => v.PhoneNumber)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotNull()
