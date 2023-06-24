@@ -10,12 +10,10 @@ namespace FoodDelivery.DAL.Configuration
         {
             builder.ToTable("Reviews").HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.Property(x => x.CustomerRating)
-                .HasMaxLength(5);
             builder.Property(x => x.Description)
                 .HasMaxLength(200);
             builder.Property(x => x.CreationDate)
-           .HasConversion(x => x.ToString("f"), x => DateTime.ParseExact(x, "f", null));
+           .HasConversion(x => x.ToString("G"), x => DateTime.ParseExact(x, "G", null));
 
         }
     }
