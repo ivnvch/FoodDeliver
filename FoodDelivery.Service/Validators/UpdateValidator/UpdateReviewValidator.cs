@@ -8,7 +8,7 @@ namespace FoodDelivery.Service.Validators.UpdateValidator
     {
         public UpdateReviewValidator()
         {
-            RuleFor(v => v.Id)
+            RuleFor(r => r.Id)
                .NotNull()
                .NotEmpty().WithMessage("id is requered");
             RuleFor(r => r.CreationDate)
