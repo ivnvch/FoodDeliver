@@ -2,11 +2,11 @@
 using FoodDelivery.DAL.Entity;
 using FoodDelivery.Models.ViewModel.Account;
 
-namespace FoodDelivery.Service.Validators.AddValidator
+namespace FoodDelivery.Service.Validators.AuthValidator
 {
-    public class AddLoginViewModelValidator : AbstractValidator<LoginViewModel>
+    public class AddLoginValidator : AbstractValidator<LoginViewModel>
     {
-        public AddLoginViewModelValidator()
+        public AddLoginValidator()
         {
             RuleFor(l => l.Login)
                 .Cascade(CascadeMode.StopOnFirstFailure)
