@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.ViewModel.Vendor;
 
 namespace FoodDelivery.Service.Validators.AddValidator
 {
-    public class AddVendorValidator : AbstractValidator<Vendor>
+    public class AddVendorValidator : AbstractValidator<VendorDto>
     {
         public AddVendorValidator()
         {

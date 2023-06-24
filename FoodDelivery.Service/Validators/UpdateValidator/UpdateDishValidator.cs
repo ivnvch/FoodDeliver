@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.Entity.DTO;
 
 namespace FoodDelivery.Service.Validators.UpdateValidator
 {
-    public class UpdateDishValidator:AbstractValidator<Dish>
+    public class UpdateDishValidator:AbstractValidator<DishUpdateDTO>
     {
         public UpdateDishValidator()
         {
@@ -25,9 +25,9 @@ namespace FoodDelivery.Service.Validators.UpdateValidator
             RuleFor(d => d.Weight)
                 .NotEmpty()
                 .NotNull().WithMessage("weight is empty");
-            RuleFor(d => d.Amount)
-                .NotEmpty()
-                .NotNull().WithMessage("amount is empty");
+            //RuleFor(d => d.Amount)
+            //    .NotEmpty()
+            //    .NotNull().WithMessage("amount is empty");
         }
         public bool IsValidName(string name)
         {

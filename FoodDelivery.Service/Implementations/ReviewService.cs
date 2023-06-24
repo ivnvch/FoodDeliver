@@ -61,6 +61,7 @@ namespace FoodDelivery.Service.Implementations
                 Review review = new Review();
                 review.CreationDate = reviewDto.CreationDate;
                 review.UserId = reviewDto.UserId;
+                review.VendorId = reviewDto.VendorId;
                 review.CustomerRating = reviewDto.CustomerRating;
                 review.Description = reviewDto.Description;
                 _db.Reviews.Add(review);
@@ -79,6 +80,7 @@ namespace FoodDelivery.Service.Implementations
 
                 review.CreationDate = reviewDto.CreationDate;
                 review.UserId = reviewDto.UserId;
+                review.VendorId = reviewDto.VendorId;
                 review.CustomerRating = reviewDto.CustomerRating;
                 review.Description = reviewDto.Description;
 

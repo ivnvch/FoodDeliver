@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.Entity.DTO;
 
 namespace FoodDelivery.Service.Validators.AddValidator
 {
-    public class AddDishValidator:AbstractValidator<Dish>
+    public class AddDishValidator:AbstractValidator<DishCreateDTO>
     {
         public AddDishValidator()
         {

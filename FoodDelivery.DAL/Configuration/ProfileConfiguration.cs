@@ -16,7 +16,7 @@ namespace FoodDelivery.DAL.Configuration
             builder.Property(x => x.MiddleName).HasMaxLength(50);
 
             builder.Property(x => x.DateCreated)
-                .HasConversion(x => x.ToString("f"), x => DateTime.ParseExact(x, "f", null));
+                .HasConversion(x => x.ToString("G"), x => DateTime.ParseExact(x, "G", null));
         }
     }
 }
