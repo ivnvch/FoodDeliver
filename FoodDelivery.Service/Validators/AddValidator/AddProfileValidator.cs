@@ -14,11 +14,11 @@ namespace FoodDelivery.Service.Validators.AddValidator
                 .MaximumLength(25).WithMessage("maximum first name length 25")
                 .Must(IsValidName).WithMessage("first name contains invalid characters");
             RuleFor(p => p.LastName)
-              .Cascade(CascadeMode.StopOnFirstFailure)
-              .NotNull()
-              .NotEmpty().WithMessage("last name is empty")
-              .MaximumLength(50).WithMessage("maximum last name length 25")
-              .Must(IsValidName).WithMessage("last name contains invalid characters");
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotNull()
+                .NotEmpty().WithMessage("last name is empty")
+                .MaximumLength(50).WithMessage("maximum last name length 25")
+                .Must(IsValidName).WithMessage("last name contains invalid characters");
             RuleFor(p => p.MiddleName)
               .Cascade(CascadeMode.StopOnFirstFailure)
               .NotNull()

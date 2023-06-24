@@ -1,21 +1,27 @@
 ﻿using FluentValidation;
-using FoodDelivery.Models.ViewModel.Account;
+using FoodDelivery.Models.ViewModel.User;
 
-namespace FoodDelivery.Service.Validators.AuthValidator
+namespace FoodDelivery.Service.Validators.AddValidator
 {
-    public class AddLoginValidator : AbstractValidator<LoginViewModel>
+    public class AddUserValidator : AbstractValidator<UserViewModel>
     {
-        public AddLoginValidator()
+        public AddUserValidator()
         {
-            RuleFor(l => l.Login)
+            RuleFor(u => u.Login)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
                 .NotNull().WithMessage("login is empty")
                 .Must(IsValidLogin).WithMessage("login contains invalid characters");
-            RuleFor(l => l.Password)
+            RuleFor(u => u.Token)
+                .NotEmpty()
+                .NotNull().WithMessage("token is empty");
+            RuleFor(u => u.Password)
                 .NotEmpty()
                 .NotNull().WithMessage("password is epmty")
                 .MinimumLength(6).WithMessage("the minimum password length must be at least 6 characters");
+            RuleFor(u => u.Role)
+                .NotEmpty()
+                .NotNull().WithMessage("role is empty");
         }
         public bool IsValidLogin(string login)
         {
