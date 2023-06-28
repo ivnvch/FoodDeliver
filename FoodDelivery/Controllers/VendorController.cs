@@ -1,6 +1,10 @@
-﻿using FoodDelivery.DAL.Entity;
+﻿using FluentValidation;
+using FoodDelivery.DAL.Entity;
+using FoodDelivery.Models.ViewModel.Review;
 using FoodDelivery.Models.ViewModel.Vendor;
 using FoodDelivery.Service.Interfaces;
+using FoodDelivery.Service.Validators.AddValidator;
+using FoodDelivery.Service.Validators.UpdateValidator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -88,20 +92,30 @@ namespace FoodDelivery.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Post(VendorDto vendorDto)
         {
-            return await _vendorService.CreateAsync(vendorDto) ? Ok("vendor has been created") : BadRequest("vendor not created");
+            var validator = new AddVendorValidator();
+            var validationResult = validator.Validate(vendorDto);
+            if (validationResult.IsValid)
+            {
+                return await _vendorService.CreateAsync(vendorDto) ? Ok("vendor has been created") : BadRequest("vendor not created");
+            }
+            else
+            {
+                return BadRequest("entry is not correct");
+            }
         }
         [Authorize(Roles = "Vendor")]
         [HttpPut("Update")]
         public async Task<IActionResult> Put(VendorDto vendorDto)
         {
-            try
+            var validator = new UpdateVendorValidator();
+            var validationResult = validator.Validate(vendorDto);
+            if (validationResult.IsValid)
             {
                 return await _vendorService.UpdateAsync(vendorDto) ? Ok("vendor has been updated") : BadRequest("vendor not updated");
-
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest("error when changing an vendor " + ex.Message);
+                return BadRequest("entry is not correct");
             }
         }
         [Authorize(Roles = "Vendor")]

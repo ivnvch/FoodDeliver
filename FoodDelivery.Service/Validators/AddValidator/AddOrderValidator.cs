@@ -3,9 +3,9 @@ using FoodDelivery.Models.ViewModel.Order;
 
 namespace FoodDelivery.Service.Validators.AddValidator
 {
-    public class AddOrderValidator : AbstractValidator<OrderDto>
+    public class UpdateOrderValidator : AbstractValidator<OrderDto>
     {
-        public AddOrderValidator()
+        public UpdateOrderValidator()
         {
             RuleFor(o => o.DateCreate)
                 .NotNull()

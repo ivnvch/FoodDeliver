@@ -32,10 +32,11 @@ namespace FoodDelivery.Controllers
             {
                 return await _reviewService.CreateAsync(reviewDto) ? Ok("review has been created") : BadRequest("review not created");
             }
-            else 
-            { 
-                return BadRequest("entry is not correct"); 
+            else
+            {
+                return BadRequest("entry is not correct");
             }
+
         }
         [Authorize]
         [HttpPut("Update")]
@@ -50,7 +51,10 @@ namespace FoodDelivery.Controllers
                     return await _reviewService.UpdateAsync(reviewDto) ? Ok("review has been updated") : BadRequest("review not updated");
                 return BadRequest("you do not have access to perform this action");
             }
-            else { return BadRequest("entry is not correct"); }
+            else
+            {
+                return BadRequest("entry is not correct");
+            }
         }
         [Authorize]
         [HttpDelete("Delete/{id}")]
