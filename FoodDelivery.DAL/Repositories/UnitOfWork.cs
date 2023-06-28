@@ -11,6 +11,7 @@ namespace FoodDelivery.DAL.Repositories
         private IProfileRepository _profileRepository;
         private IUserRepository _userRepository;
         private IVendorRepository _vendorRepository;
+        private IReviewRepository _reviewRepository;
 
         public UnitOfWork(DataContext context)
         {
@@ -38,6 +39,18 @@ namespace FoodDelivery.DAL.Repositories
                 }
 
                 return _vendorRepository;
+            }
+        }
+        public IReviewRepository ReviewRepository
+        {
+            get
+            {
+                if (_reviewRepository is null)
+                {
+                    _reviewRepository = new ReviewRepository(_context);
+                }
+
+                return _reviewRepository;
             }
         }
         public IDishRepository DishRepository

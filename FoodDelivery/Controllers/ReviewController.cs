@@ -15,21 +15,10 @@ namespace FoodDelivery.Controllers
         {
             _reviewService = reviewService;
         }
-
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {
-            try
-            {
-                var reviews = await _reviewService.GetListAsync();
-                if (reviews == null)
-                    return Ok("the review list is still empty");
-                return Ok(reviews);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("error when getting an review list:" + ex.Message);
-            }
+            return Ok(await _reviewService.GetListAsync());
         }
         [Authorize]
         [HttpPost("Create")]
@@ -41,18 +30,10 @@ namespace FoodDelivery.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> Put(ReviewDto reviewDto)
         {
-            try
-            {
-                var currentUser = HttpContext.User;
-                int userId = _reviewService.GetUserByReviewIdAsync(reviewDto.Id).Id;
-                if (userId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                    return await _reviewService.UpdateAsync(reviewDto) ? Ok("review has been updated") : BadRequest("review not updated");
-                return Forbid();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("error when changing an review " + ex.Message);
-            }
+            var currentUser = HttpContext.User;
+            if (currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "User")
+                return await _reviewService.UpdateAsync(reviewDto) ? Ok("review has been updated") : BadRequest("review not updated");
+            return BadRequest("you do not have access to perform this action");
         }
         [Authorize]
         [HttpDelete("Delete/{id}")]
@@ -61,9 +42,7 @@ namespace FoodDelivery.Controllers
             try
             {
                 var currentUser = HttpContext.User;
-                var review = await _reviewService.GetByIdAsync(id);
-                int userId = _reviewService.GetUserByReviewIdAsync(id).Id;
-                if (userId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                if (currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "User")
                     return await _reviewService.DeleteAsync(id) ? Ok("review has been removed") : BadRequest("review not deleted");
                 return Forbid();
             }

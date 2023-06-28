@@ -17,8 +17,8 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                var review = await _db.Reviews.AsNoTracking().ToListAsync();
-                return review;
+                var reviews = await _db.Reviews.AsNoTracking().ToListAsync();
+                return reviews;
             }
             catch (Exception ex)
             {
@@ -29,8 +29,8 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                Review review = await GetByIdAsync(reviewId);
-                User user = review.User;
+                int userId = (await GetByIdAsync(reviewId)).UserId;
+                var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
                 if (user == null)
                     throw new Exception("no user found");
                 return user;
@@ -61,7 +61,9 @@ namespace FoodDelivery.Service.Implementations
                 Review review = new Review();
                 review.CreationDate = reviewDto.CreationDate;
                 review.UserId = reviewDto.UserId;
+                review.User = await _db.Users.FirstOrDefaultAsync(x => x.Id == reviewDto.UserId);
                 review.VendorId = reviewDto.VendorId;
+                review.Vendor = await _db.Vendors.FirstOrDefaultAsync(x => x.Id == reviewDto.VendorId);
                 review.CustomerRating = reviewDto.CustomerRating;
                 review.Description = reviewDto.Description;
                 _db.Reviews.Add(review);
@@ -77,13 +79,13 @@ namespace FoodDelivery.Service.Implementations
             try
             {
                 var review = await GetByIdAsync(reviewDto.Id);
-
                 review.CreationDate = reviewDto.CreationDate;
                 review.UserId = reviewDto.UserId;
+                review.User = await _db.Users.FirstOrDefaultAsync(x => x.Id == reviewDto.UserId);
                 review.VendorId = reviewDto.VendorId;
+                review.Vendor = await _db.Vendors.FirstOrDefaultAsync(x => x.Id == reviewDto.VendorId);
                 review.CustomerRating = reviewDto.CustomerRating;
                 review.Description = reviewDto.Description;
-
                 _db.Update(review);
                 return await SaveAsync();
             }
