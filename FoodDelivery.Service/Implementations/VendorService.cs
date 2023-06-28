@@ -17,10 +17,8 @@ namespace FoodDelivery.Service.Implementations
         {
             try
             {
-                Vendor vendor = await _db.Vendors.FirstOrDefaultAsync(x => x.Id == id);
-                if (vendor == null)
-                    throw new Exception("no vendor found ");
-                int numberReviews = vendor.Reviews.Count;
+                Vendor vendor = await GetByIdAsync(id);
+                int numberReviews = vendor.Reviews.Count();
                 return numberReviews == 0 ? 0 : numberReviews;
             }
             catch (Exception ex)
@@ -48,16 +46,16 @@ namespace FoodDelivery.Service.Implementations
                 vendors[i].CustomerRaiting = await GetСustomerRatingAsync(vendors[i].Id);
             }
             var vendorsSorting = from i in vendors
-                              orderby i.CustomerRaiting
-                              select i;
+                                 orderby i.CustomerRaiting
+                                 select i;
             return vendorsSorting;
         }
         public async Task<IEnumerable<Vendor>> SortingByDeliveryTimeAsync()
         {
             IEnumerable<Vendor> vendors = await GetListAsync();
             var vendorsSorting = from i in vendors
-                              orderby i.TimeOfDelivery
-                              select i;
+                                 orderby i.TimeOfDelivery
+                                 select i;
             return vendorsSorting;
         }
         public async Task<Vendor> GetByIdAsync(int id)
@@ -81,11 +79,14 @@ namespace FoodDelivery.Service.Implementations
                 double customerRating = 0;
                 Vendor vendor = await GetByIdAsync(id);
                 List<Review> reviews = vendor.Reviews.ToList();
-                for (int i = 0; i < reviews.Count; i++)
+                if (reviews.Count > 0)
                 {
-                    customerRating += reviews[i].CustomerRating;
+                    for (int i = 0; i < reviews.Count; i++)
+                    {
+                        customerRating += reviews[i].CustomerRating;
+                    }
+                    customerRating /= reviews.Count;
                 }
-                customerRating /= reviews.Count;
                 return customerRating;
             }
             catch (Exception ex)
@@ -127,12 +128,12 @@ namespace FoodDelivery.Service.Implementations
                 vendor.ClosingTime = vendorDto.ClosingTime;
                 vendor.TimeOfDelivery = vendorDto.TimeOfDelivery;
                 vendor.Description = vendorDto.Description;
-                _db.Update(vendorDto);
+                _db.Update(vendor);
                 return await SaveAsync();
             }
             catch (Exception ex)
             {
-                throw new Exception("error when changing an vendor ", ex);
+                throw new Exception("ERROR when changing an vendor ", ex);
             }
         }
         public async Task<bool> DeleteAsync(int id)

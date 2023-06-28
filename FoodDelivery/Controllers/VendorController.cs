@@ -3,12 +3,12 @@ using FoodDelivery.Models.ViewModel.Vendor;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FoodDelivery.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
     public class VendorController : ControllerBase
     {
         private readonly IVendorService _vendorService;
@@ -37,7 +37,8 @@ namespace FoodDelivery.Controllers
         {
             try
             {
-                return Ok(_vendorService.GetNumberReviewsAsync(id));
+                var numberReviews = await _vendorService.GetNumberReviewsAsync(id);
+                return Ok(numberReviews);
             }
             catch (Exception ex)
             {
@@ -49,7 +50,7 @@ namespace FoodDelivery.Controllers
         {
             try
             {
-                var vendors = _vendorService.GetСustomerRatingAsync(id);
+                var vendors = await _vendorService.GetСustomerRatingAsync(id);
                 return Ok(vendors);
             }
             catch (Exception ex)
@@ -62,10 +63,10 @@ namespace FoodDelivery.Controllers
         {
             try
             {
-                var vendors = _vendorService.SortingByDeliveryTimeAsync();
+                var vendors = await _vendorService.SortingByDeliveryTimeAsync();
                 return Ok(vendors);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest("error getting number of reviews " + ex.Message);
             }
@@ -75,48 +76,41 @@ namespace FoodDelivery.Controllers
         {
             try
             {
-                return Ok(_vendorService.SortingByRatingAsync());
+                var vendors = await _vendorService.SortingByRatingAsync();
+                return Ok(vendors);
             }
             catch (Exception ex)
             {
                 return BadRequest("error when getting customer rating " + ex.Message);
             }
-        }             
-        [Authorize]
+        }
+        [Authorize(Roles = "Vendor")]
         [HttpPost("Create")]
         public async Task<IActionResult> Post(VendorDto vendorDto)
         {
             return await _vendorService.CreateAsync(vendorDto) ? Ok("vendor has been created") : BadRequest("vendor not created");
         }
-        [Authorize]
+        [Authorize(Roles = "Vendor")]
         [HttpPut("Update")]
         public async Task<IActionResult> Put(VendorDto vendorDto)
         {
             try
             {
-                var currentUser = HttpContext.User;
-                // if (_vendorService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
-                // {                
                 return await _vendorService.UpdateAsync(vendorDto) ? Ok("vendor has been updated") : BadRequest("vendor not updated");
-                // }
-                // return Forbid();
+
             }
             catch (Exception ex)
             {
                 return BadRequest("error when changing an vendor " + ex.Message);
             }
         }
-        [Authorize]
+        [Authorize(Roles = "Vendor")]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var currentUser = HttpContext.User;
-                var vendor = await _vendorService.GetByIdAsync(id);
-                // if (vendor.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
                 return await _vendorService.DeleteAsync(id) ? Ok("vendor has been removed") : BadRequest("vendor not deleted");
-                // return Forbid();
             }
             catch (Exception ex)
             {

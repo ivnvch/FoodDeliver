@@ -15,6 +15,7 @@ namespace FoodDelivery.Controllers
         {
             _orderService = orderService;
         }
+        //admin
         [Authorize]
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
@@ -44,7 +45,7 @@ namespace FoodDelivery.Controllers
             try
             {
                 var currentUser = HttpContext.User;
-                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "Vendor")
                     return await _orderService.UpdateAsync(orderDto) ? Ok("order has been updated") : BadRequest("order not updated");
                 return Forbid();
             }
@@ -61,9 +62,8 @@ namespace FoodDelivery.Controllers
             {
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(id);
-                if (order.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                if (order.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "Vendor")
                     return await _orderService.DeleteAsync(id) ? Ok("order has been removed") : BadRequest("order not deleted");
-
                 return Forbid();
             }
             catch (Exception ex)
