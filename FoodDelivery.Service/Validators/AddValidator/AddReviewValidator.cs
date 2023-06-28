@@ -8,10 +8,8 @@ namespace FoodDelivery.Service.Validators.AddValidator
         public AddReviewValidator()
         {
             RuleFor(r => r.CreationDate)
-                .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotNull()
-                .NotEmpty().WithMessage("data is empty")
-                .Must(IsValidTime).WithMessage("invalid date");
+                .NotEmpty().WithMessage("data is empty");
             RuleFor(r => r.UserId)
                 .NotNull()
                 .NotEmpty().WithMessage("user id is requered");
@@ -24,15 +22,6 @@ namespace FoodDelivery.Service.Validators.AddValidator
                 .Must(IsValidRating).WithMessage("score must be from 0 to 5");
             RuleFor(r => r.Description) 
                 .MaximumLength(200).WithMessage("maximum description length must be up to 200");
-        }
-        protected bool IsValidTime(DateTime date)
-        {
-            DateTime currentDate = DateTime.Now;
-            if (date == currentDate)
-            {
-                return true;
-            }
-            return false;
         }
         protected bool IsValidRating(double rating)
         {

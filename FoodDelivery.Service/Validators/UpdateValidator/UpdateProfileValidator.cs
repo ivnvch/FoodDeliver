@@ -28,10 +28,8 @@ namespace FoodDelivery.Service.Validators.UpdateValidator
                 .NotEmpty().WithMessage("middle name is empty")
                 .MaximumLength(50).WithMessage("maximum middle name length 25");
             RuleFor(p => p.DateCreated)
-                .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotNull()
-                .NotEmpty().WithMessage("data is empty")
-                .Must(IsValidTime).WithMessage("invalid date");
+                .NotEmpty().WithMessage("data is empty");
             RuleFor(p => p.PhoneNumber)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotNull()
@@ -47,15 +45,6 @@ namespace FoodDelivery.Service.Validators.UpdateValidator
         {
             name = name.Replace(" ", "");
             return name.All(char.IsLetter);
-        }
-        protected bool IsValidTime(DateTime date)
-        {
-            DateTime currentDate = DateTime.Now;
-            if (date == currentDate)
-            {
-                return true;
-            }
-            return false;
         }
         public bool IsValidLogin(string login)
         {

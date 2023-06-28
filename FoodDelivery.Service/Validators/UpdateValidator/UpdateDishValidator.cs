@@ -25,9 +25,6 @@ namespace FoodDelivery.Service.Validators.UpdateValidator
             RuleFor(d => d.Weight)
                 .NotEmpty()
                 .NotNull().WithMessage("weight is empty");
-            //RuleFor(d => d.Amount)
-            //    .NotEmpty()
-            //    .NotNull().WithMessage("amount is empty");
         }
         public bool IsValidName(string name)
         {

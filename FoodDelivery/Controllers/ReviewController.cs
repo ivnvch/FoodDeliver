@@ -1,6 +1,7 @@
 ﻿using FoodDelivery.Models.ViewModel.Review;
 using FoodDelivery.Service.Interfaces;
 using FoodDelivery.Service.Validators.AddValidator;
+using FoodDelivery.Service.Validators.UpdateValidator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -27,7 +28,6 @@ namespace FoodDelivery.Controllers
         {
             var validator = new AddReviewValidator();
             var validationResult = validator.Validate(reviewDto);
-
             if (validationResult.IsValid)
             {
                 return await _reviewService.CreateAsync(reviewDto) ? Ok("review has been created") : BadRequest("review not created");
@@ -41,7 +41,9 @@ namespace FoodDelivery.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> Put(ReviewDto reviewDto)
         {
-            if (ModelState.IsValid)
+            var validator = new UpdateReviewValidator();
+            var validationResult = validator.Validate(reviewDto);
+            if (validationResult.IsValid)
             {
                 var currentUser = HttpContext.User;
                 if (currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "User")
