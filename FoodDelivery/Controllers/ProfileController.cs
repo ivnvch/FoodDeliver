@@ -24,7 +24,7 @@ namespace FoodDelivery.Controllers
         {
 
             string login = IdentityHelper.GetLogin(User);
-            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+            //string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
             var profile = await _profileService.GetProfile(login);
 
             if (profile.StatusCode == Models.Enum.StatusCode.OK)
