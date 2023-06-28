@@ -2,6 +2,7 @@ using FoodDelivery;
 using FoodDelivery.Configuration;
 using FoodDelivery.DAL;
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,12 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(conne
 
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();
+
+builder.Host.ConfigureLogging(logigng =>
+{
+    logigng.ClearProviders();
+    logigng.SetMinimumLevel(LogLevel.Trace);
+}).UseNLog();
 
 
 builder.Services.RegisterRepositories();
