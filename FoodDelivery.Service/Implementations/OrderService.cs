@@ -3,8 +3,6 @@ using FoodDelivery.DAL.Entity;
 using FoodDelivery.Models.ViewModel.Order;
 using FoodDelivery.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
-using System.Security.Claims;
 
 namespace FoodDelivery.Service.Implementations
 {
@@ -50,7 +48,6 @@ namespace FoodDelivery.Service.Implementations
                 order.Price = orderDto.Price;
                 order.IsComplete = orderDto.IsComplete;
                 order.BasketId = orderDto.BasketId;
-                order.DishId = orderDto.DishId;
                 order.Basket = await _db.Baskets.FirstOrDefaultAsync(x => x.Id == order.BasketId);
                 order.Address = orderDto.Address;
                 order.Commentary = orderDto.Commentary;
@@ -71,7 +68,6 @@ namespace FoodDelivery.Service.Implementations
                 order.Price = orderDto.Price;
                 order.IsComplete = orderDto.IsComplete;
                 order.BasketId = orderDto.BasketId;
-                order.DishId = orderDto.DishId;
                 order.Basket = await GetBasketAsync(order.BasketId);
                 order.Address = orderDto.Address;
                 order.Commentary = orderDto.Commentary;

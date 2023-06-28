@@ -5,29 +5,11 @@
 namespace FoodDelivery.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNewModels : Migration
+    public partial class UpdateModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Dishes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(7,2)", nullable: false),
-                    Weight = table.Column<decimal>(type: "decimal(5,3)", nullable: false),
-                    Amount = table.Column<short>(type: "smallint", nullable: false),
-                    Category = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Dishes", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -58,17 +40,11 @@ namespace FoodDelivery.DAL.Migrations
                     CustomerRaiting = table.Column<double>(type: "float", maxLength: 5, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    VendorId = table.Column<int>(type: "int", nullable: true)
+                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vendors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vendors_Vendors_VendorId",
-                        column: x => x.VendorId,
-                        principalTable: "Vendors",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -123,7 +99,7 @@ namespace FoodDelivery.DAL.Migrations
                     CreationDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     VendorId = table.Column<int>(type: "int", nullable: false),
-                    CustomerRating = table.Column<double>(type: "float", maxLength: 5, nullable: false),
+                    CustomerRating = table.Column<double>(type: "float", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
@@ -151,7 +127,6 @@ namespace FoodDelivery.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateCreate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(7,2)", nullable: false),
-                    DishId = table.Column<int>(type: "int", nullable: false),
                     BasketId = table.Column<int>(type: "int", nullable: false),
                     IsComplete = table.Column<bool>(type: "bit", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -168,11 +143,51 @@ namespace FoodDelivery.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Dishes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(7,2)", nullable: false),
+                    Weight = table.Column<decimal>(type: "decimal(5,3)", nullable: false),
+                    Amount = table.Column<short>(type: "smallint", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    VendorId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dishes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Dishes_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Dishes_Vendors_VendorId",
+                        column: x => x.VendorId,
+                        principalTable: "Vendors",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Baskets_UserId",
                 table: "Baskets",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dishes_OrderId",
+                table: "Dishes",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dishes_VendorId",
+                table: "Dishes",
+                column: "VendorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_BasketId",
@@ -194,11 +209,6 @@ namespace FoodDelivery.DAL.Migrations
                 name: "IX_Reviews_VendorId",
                 table: "Reviews",
                 column: "VendorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vendors_VendorId",
-                table: "Vendors",
-                column: "VendorId");
         }
 
         /// <inheritdoc />
@@ -208,19 +218,19 @@ namespace FoodDelivery.DAL.Migrations
                 name: "Dishes");
 
             migrationBuilder.DropTable(
-                name: "Orders");
-
-            migrationBuilder.DropTable(
                 name: "Profiles");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Baskets");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Vendors");
+
+            migrationBuilder.DropTable(
+                name: "Baskets");
 
             migrationBuilder.DropTable(
                 name: "Users");

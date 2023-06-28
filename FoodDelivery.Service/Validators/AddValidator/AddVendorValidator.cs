@@ -8,20 +8,14 @@ namespace FoodDelivery.Service.Validators.AddValidator
         public AddVendorValidator()
         {
             RuleFor(v => v.OpeningTime)
-                .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotNull()
-                .NotEmpty().WithMessage("data is empty")
-                .Must(IsValidTime).WithMessage("invalid date");
+                .NotEmpty().WithMessage("data is empty");
             RuleFor(v => v.ClosingTime)
-                .Cascade(CascadeMode.StopOnFirstFailure) 
                 .NotNull()
-                .NotEmpty().WithMessage("data is empty")
-                .Must(IsValidTime).WithMessage("invalid date");
+                .NotEmpty().WithMessage("data is empty");
             RuleFor(v => v.TimeOfDelivery)
-                .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotNull()
-                .NotEmpty().WithMessage("data is empty")
-                .Must(IsValidTime).WithMessage("invalid date");
+                .NotEmpty().WithMessage("data is empty");
             RuleFor(v => v.Type)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotNull()
@@ -51,14 +45,6 @@ namespace FoodDelivery.Service.Validators.AddValidator
         {
             name = name.Replace(" ", "");
             return name.All(char.IsLetter);
-        }
-        protected bool IsValidTime(DateTime date)
-        {
-            if (date.ToString() != date.ToShortTimeString())
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

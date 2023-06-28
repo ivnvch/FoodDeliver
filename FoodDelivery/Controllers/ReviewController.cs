@@ -1,5 +1,7 @@
 ﻿using FoodDelivery.Models.ViewModel.Review;
 using FoodDelivery.Service.Interfaces;
+using FoodDelivery.Service.Validators.AddValidator;
+using FoodDelivery.Service.Validators.UpdateValidator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -15,43 +17,43 @@ namespace FoodDelivery.Controllers
         {
             _reviewService = reviewService;
         }
-
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
         {
-            try
-            {
-                var reviews = await _reviewService.GetListAsync();
-                if (reviews == null)
-                    return Ok("the review list is still empty");
-                return Ok(reviews);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("error when getting an review list:" + ex.Message);
-            }
+            return Ok(await _reviewService.GetListAsync());
         }
         [Authorize]
         [HttpPost("Create")]
         public async Task<IActionResult> Post(ReviewDto reviewDto)
         {
-            return await _reviewService.CreateAsync(reviewDto) ? Ok("review has been created") : BadRequest("review not created");
+            var validator = new AddReviewValidator();
+            var validationResult = validator.Validate(reviewDto);
+            if (validationResult.IsValid)
+            {
+                return await _reviewService.CreateAsync(reviewDto) ? Ok("review has been created") : BadRequest("review not created");
+            }
+            else
+            {
+                return BadRequest("entry is not correct");
+            }
+
         }
         [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> Put(ReviewDto reviewDto)
         {
-            try
+            var validator = new UpdateReviewValidator();
+            var validationResult = validator.Validate(reviewDto);
+            if (validationResult.IsValid)
             {
                 var currentUser = HttpContext.User;
-                int userId = _reviewService.GetUserByReviewIdAsync(reviewDto.Id).Id;
-                if (userId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                if (currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "User")
                     return await _reviewService.UpdateAsync(reviewDto) ? Ok("review has been updated") : BadRequest("review not updated");
-                return Forbid();
+                return BadRequest("you do not have access to perform this action");
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest("error when changing an review " + ex.Message);
+                return BadRequest("entry is not correct");
             }
         }
         [Authorize]
@@ -61,9 +63,7 @@ namespace FoodDelivery.Controllers
             try
             {
                 var currentUser = HttpContext.User;
-                var review = await _reviewService.GetByIdAsync(id);
-                int userId = _reviewService.GetUserByReviewIdAsync(id).Id;
-                if (userId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                if (currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "User")
                     return await _reviewService.DeleteAsync(id) ? Ok("review has been removed") : BadRequest("review not deleted");
                 return Forbid();
             }

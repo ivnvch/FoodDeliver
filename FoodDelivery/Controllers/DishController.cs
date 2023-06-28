@@ -1,6 +1,7 @@
 using Azure;
 using FoodDelivery.Models.Entity.DTO;
 using FoodDelivery.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDelivery.Controllers

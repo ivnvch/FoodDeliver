@@ -7,6 +7,8 @@
         IOrderRepository OrdersRepository { get; }
         IProfileRepository ProfileRepository { get; }
         IUserRepository UserRepository { get; }
+        IReviewRepository ReviewRepository { get; }
+        IVendorRepository VendorRepository { get; }
         Task SaveAsync();
     }
 }

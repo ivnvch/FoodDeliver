@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230623135031_AddNewModels")]
-    partial class AddNewModels
+    [Migration("20230628174934_UpdateModel")]
+    partial class UpdateModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,13 +66,23 @@ namespace FoodDelivery.DAL.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(7,2)");
+
+                    b.Property<int?>("VendorId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Weight")
                         .HasColumnType("decimal(5,3)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("VendorId");
 
                     b.ToTable("Dishes", (string)null);
                 });
@@ -100,9 +110,6 @@ namespace FoodDelivery.DAL.Migrations
                     b.Property<string>("DateCreate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DishId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsComplete")
                         .HasColumnType("bit");
@@ -172,7 +179,6 @@ namespace FoodDelivery.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("CustomerRating")
-                        .HasMaxLength(5)
                         .HasColumnType("float");
 
                     b.Property<string>("Description")
@@ -270,12 +276,7 @@ namespace FoodDelivery.DAL.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<int?>("VendorId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("VendorId");
 
                     b.ToTable("Vendors", (string)null);
                 });
@@ -289,6 +290,17 @@ namespace FoodDelivery.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FoodDelivery.DAL.Entity.Dish", b =>
+                {
+                    b.HasOne("FoodDelivery.DAL.Entity.Order", null)
+                        .WithMany("Dishes")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("FoodDelivery.DAL.Entity.Vendor", null)
+                        .WithMany("Dishes")
+                        .HasForeignKey("VendorId");
                 });
 
             modelBuilder.Entity("FoodDelivery.DAL.Entity.Order", b =>
@@ -332,16 +344,14 @@ namespace FoodDelivery.DAL.Migrations
                     b.Navigation("Vendor");
                 });
 
-            modelBuilder.Entity("FoodDelivery.DAL.Entity.Vendor", b =>
-                {
-                    b.HasOne("FoodDelivery.DAL.Entity.Vendor", null)
-                        .WithMany("Dishes")
-                        .HasForeignKey("VendorId");
-                });
-
             modelBuilder.Entity("FoodDelivery.DAL.Entity.Basket", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("FoodDelivery.DAL.Entity.Order", b =>
+                {
+                    b.Navigation("Dishes");
                 });
 
             modelBuilder.Entity("FoodDelivery.DAL.Entity.User", b =>

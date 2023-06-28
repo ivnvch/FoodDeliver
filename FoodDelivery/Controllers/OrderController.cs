@@ -1,5 +1,8 @@
-﻿using FoodDelivery.Models.ViewModel.Order;
+﻿using FluentValidation;
+using FoodDelivery.Models.ViewModel.Order;
+using FoodDelivery.Models.ViewModel.Vendor;
 using FoodDelivery.Service.Interfaces;
+using FoodDelivery.Service.Validators.AddValidator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -15,6 +18,7 @@ namespace FoodDelivery.Controllers
         {
             _orderService = orderService;
         }
+        //admin
         [Authorize]
         [HttpGet("GetList")]
         public async Task<IActionResult> GetList()
@@ -35,22 +39,33 @@ namespace FoodDelivery.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Post(OrderDto orderDto)
         {
-            return await _orderService.CreateAsync(orderDto) ? Ok("order has been created") : BadRequest("order not created");
+            var validator = new UpdateOrderValidator();
+            var validationResult = validator.Validate(orderDto);
+            if (validationResult.IsValid)
+            {
+                return await _orderService.CreateAsync(orderDto) ? Ok("order has been created") : BadRequest("order not created");
+            }
+            else
+            {
+                return BadRequest("entry is not correct");
+            }
         }
         [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> Put(OrderDto orderDto)
         {
-            try
+            var validator = new UpdateOrderValidator();
+            var validationResult = validator.Validate(orderDto);
+            if (validationResult.IsValid)
             {
                 var currentUser = HttpContext.User;
-                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                if (_orderService.GetUserByBasketIdAsync(orderDto.BasketId).Id == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "Vendor")
                     return await _orderService.UpdateAsync(orderDto) ? Ok("order has been updated") : BadRequest("order not updated");
                 return Forbid();
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest("error when changing an order " + ex.Message);
+                return BadRequest("entry is not correct");
             }
         }
         [Authorize]
@@ -61,9 +76,8 @@ namespace FoodDelivery.Controllers
             {
                 var currentUser = HttpContext.User;
                 var order = await _orderService.GetByIdAsync(id);
-                if (order.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin")
+                if (order.Basket.UserId == int.Parse(currentUser.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")) || currentUser.FindFirstValue(ClaimTypes.Role) == "Admin" || currentUser.FindFirstValue(ClaimTypes.Role) == "Vendor")
                     return await _orderService.DeleteAsync(id) ? Ok("order has been removed") : BadRequest("order not deleted");
-
                 return Forbid();
             }
             catch (Exception ex)

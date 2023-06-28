@@ -72,6 +72,7 @@ namespace FoodDelivery.Service.Implementations
                     Description = model.Description,
                     Price = model.Price,
                     Weight = model.Weight,
+
                     Category = model.Category,
                 };
 
