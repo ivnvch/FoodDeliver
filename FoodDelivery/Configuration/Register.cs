@@ -10,13 +10,6 @@ namespace FoodDelivery.Configuration
     {
         public static void RegisterRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IBasketRepository, BasketRepository>();
-            services.AddScoped<IDishRepository, DishRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IProfileRepository, ProfileRepository>();
-            services.AddScoped<IReviewRepository, ReviewRepository>();
-            services.AddScoped<IVendorRepository, VendorRepository>();
             services.AddScoped<IBaseRepository<User>, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }

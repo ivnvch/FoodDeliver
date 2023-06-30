@@ -24,20 +24,13 @@ namespace FoodDelivery.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var userRegister = await _accountService.Register(registerViewModel);
-                    return Ok(userRegister);
-                }
+                var userRegister = await _accountService.Register(registerViewModel);
+                return Ok(userRegister);
+            }
 
-                return Unauthorized("Не все поля формы были заполнены.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Unauthorized("Не все поля формы были заполнены.");
         }
 
         [HttpPost("Login")]

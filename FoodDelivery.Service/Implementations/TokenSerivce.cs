@@ -33,17 +33,17 @@ namespace FoodDelivery.Service.Implementations
             string encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
             JwtSecurityToken refreshToken = GenerateToken(identity);
-            string encodedRefreshToken = new JwtSecurityTokenHandler().WriteToken(refreshToken);
+            //string encodedRefreshToken = new JwtSecurityTokenHandler().WriteToken(refreshToken);
 
             AuthResponseModel authResponse = new AuthResponseModel
             {
                 AccessToken = encodedToken,
-                RefreshToken = encodedRefreshToken,
+                //RefreshToken = encodedRefreshToken,
                 //IsOnboarded = user.IsOnboarded,
                 //UserToken = user.Token,
                 ValidFrom = token.ValidFrom,
                 ValidTo = token.ValidTo,
-                RefreshValidTo = refreshToken.ValidTo
+                //RefreshValidTo = refreshToken.ValidTo
             };
 
             return authResponse;

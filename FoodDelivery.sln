@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.DAL", "FoodDel
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{451F6F3D-0DA6-48C9-8EC9-4DB90ABE255B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.Service", "FoodDelivery.Service\FoodDelivery.Service.csproj", "{D47F6334-969C-4657-BBEC-D65604DB43DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Service", "FoodDelivery.Service\FoodDelivery.Service.csproj", "{D47F6334-969C-4657-BBEC-D65604DB43DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
