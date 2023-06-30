@@ -1,8 +1,11 @@
-using FoodDelivery;
 using FoodDelivery.Configuration;
 using FoodDelivery.DAL;
+using FoodDelivery.ExceptionMiddleware;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog.Web;
+using System.Web.Http.ExceptionHandling;
+using System.Web.Http.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,8 +32,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
 
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseSwagger();
 app.UseSwaggerUI(x =>
@@ -39,7 +42,7 @@ app.UseSwaggerUI(x =>
 });
 
 app.UseAuthorization();
-
+app.UseMiddleware<GlobalExceptionHandler>();
 app.MapControllers();
 
 app.Run();

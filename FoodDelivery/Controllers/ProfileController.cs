@@ -22,12 +22,11 @@ namespace FoodDelivery.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProfile()
         {
-
             string login = IdentityHelper.GetLogin(User);
             //string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
             var profile = await _profileService.GetProfile(login);
 
-            if (profile.StatusCode == Models.Enum.StatusCode.OK)
+            if (profile.StatusCode == Models.Enum.StatusCode.OK && profile != null)
             {
                 return Ok(profile);
             }
