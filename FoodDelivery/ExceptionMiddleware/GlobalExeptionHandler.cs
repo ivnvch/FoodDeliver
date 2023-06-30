@@ -31,22 +31,25 @@ namespace FoodDelivery.ExceptionMiddleware
                 {
                     case NullReferenceException e:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
-                        
+                        _logger.LogError(ex, "Referring to an object that has the value null");
                         await context.Response.WriteAsync("Referring to an object that has the value null");
                         break;
 
                     case UnauthorizedAccessException e:
                         response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        _logger.LogError(ex, "You must be logged in before contacting");
                         await context.Response.WriteAsync("You must be logged in before contacting");
                         break;
 
                     case ArgumentException e:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        _logger.LogError(ex, "Error in query arguments");
                         await context.Response.WriteAsync("Error in query arguments");
                         break;
 
                     default:
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        _logger.LogError(ex, "InternalServerError");
                         break;
                 }
 

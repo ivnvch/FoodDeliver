@@ -1,6 +1,7 @@
 ﻿using FoodDelivery.Models.Helpers;
 using FoodDelivery.Models.ViewModel.Profile;
 using FoodDelivery.Service.Interfaces;
+using FoodDelivery.Service.Validators.UpdateValidator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -37,7 +38,9 @@ namespace FoodDelivery.Controllers
         [HttpPut("SaveProfile")]
         public async Task<IActionResult> Save(ProfileViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            UpdateProfileValidator validator = new UpdateProfileValidator();
+            var validatorResult = validator.Validate(viewModel);
+            if (validatorResult.IsValid)
             {
                 var response = await _profileService.Save(viewModel);
 

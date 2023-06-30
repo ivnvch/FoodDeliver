@@ -7,9 +7,9 @@ namespace FoodDelivery.Service.Validators.AddValidator
     {
         public UpdateUserValidator()
         {
-            RuleFor(o => o.Id)
-                .NotNull()
-                .NotEmpty().WithMessage("id is requered");
+            //RuleFor(o => o.Id)
+            //    .NotNull()
+            //    .NotEmpty().WithMessage("id is requered");
             RuleFor(u => u.Login)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
