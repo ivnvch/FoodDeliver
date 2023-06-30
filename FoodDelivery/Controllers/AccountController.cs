@@ -3,6 +3,7 @@ using FoodDelivery.Models.Helpers;
 using FoodDelivery.Models.ViewModel.Account;
 using FoodDelivery.Models.ViewModel.User;
 using FoodDelivery.Service.Interfaces;
+using FoodDelivery.Service.Validators.AuthValidator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,9 @@ namespace FoodDelivery.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            if (ModelState.IsValid)
+            RegisterValidator validator = new RegisterValidator();
+            var validatorResult = validator.Validate(registerViewModel);
+            if (validatorResult.IsValid)
             {
                 var userRegister = await _accountService.Register(registerViewModel);
                 return Ok(userRegister);
@@ -36,7 +39,9 @@ namespace FoodDelivery.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
-            if (ModelState.IsValid)
+            AddLoginValidator validator = new AddLoginValidator();
+            var validatorResult = validator.Validate(loginViewModel);
+            if (validatorResult.IsValid)
             {
                 var loginUser = await _accountService.Login(loginViewModel);
                 return Ok(loginUser);

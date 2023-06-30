@@ -76,10 +76,10 @@ namespace FoodDelivery.Service.Implementations
 
                 usersModel = await users.Select(x => new UserViewModel()
                 {
-                    Id = x.Id,
+                    //Id = x.Id,
                     Login = x.Login,
                     Role = x.Role.ToString(),//переделать
-                    Password = x.PasswordHash.ToString()
+                    //Password = x.PasswordHash.ToString()
                 }).ToListAsync();
                 return new BaseResponse<IEnumerable<UserViewModel>>()
                 {

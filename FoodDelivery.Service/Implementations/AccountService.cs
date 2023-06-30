@@ -55,7 +55,7 @@ namespace FoodDelivery.Service.Implementations
                 Login = registerViewModel.Login,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                Role = Models.Enum.Role.Admin,
+                Role = Models.Enum.Role.User,
              };
 
             await _unitOfWork.UserRepository.CreateAsync(user);

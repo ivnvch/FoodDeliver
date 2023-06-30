@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+ using System.ComponentModel.DataAnnotations;
 
 namespace FoodDelivery.Models.ViewModel.Account
 {
     public class LoginViewModel
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Required(ErrorMessage = "Введите логин")]
         public string Login { get; set; }
